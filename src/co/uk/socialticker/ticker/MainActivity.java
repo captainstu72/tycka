@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.socialcast.ticker;
+package co.uk.socialticker.ticker;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -45,7 +45,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.socialcast.ticker.R;
+import co.uk.socialticker.ticker.R;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

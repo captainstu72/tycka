@@ -16,10 +16,10 @@
 -->
 <resources>
 
-    <string name="app_name">SocialCast</string>
-    <string name="app_desc">The Information Ticker</string>
+    <string name="app_name">SocialTicker</string>
+    <string name="app_desc">The Social Information Ticker</string>
     <string name="app_id">6B1EB284</string>
-    <string name="namespace">urn:x-cast:com.socialcast.ticker.data</string>
+    <string name="namespace">urn:x-cast:co.uk.socialticker.ticker.data</string>
     <string name="action_settings">Settings</string>
     <string name="message_to_cast">Message to Cast&#8230;</string>
     <string name="media_route_menu_title">Play on&#8230;</string>
