@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.cast.ApplicationMetadata;
@@ -47,7 +48,9 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Main activity to send messages to the receiver.
@@ -84,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
         Button voiceButton = (Button) findViewById(R.id.voiceButton);
         voiceButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {                
                 startVoiceRecognitionActivity();
             }
         });
@@ -382,6 +385,10 @@ public class MainActivity extends ActionBarActivity {
                                 }
                             }
                         });
+                
+                SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
+                String currentDateandTime = sdf.format(new Date());
+                ((TextView) findViewById(R.id.txtLastUpdate)).setText("Last updated: " + currentDateandTime);
             } catch (Exception e) {
                 Log.e(TAG, "Exception while sending message", e);
             }

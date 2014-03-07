@@ -1254,12 +1254,12 @@ containing a value of this type.
         public static final int image=0x7f06002a;
         public static final int listMode=0x7f060005;
         public static final int list_item=0x7f06002c;
-        public static final int media_route_control_frame=0x7f060043;
-        public static final int media_route_disconnect_button=0x7f060044;
-        public static final int media_route_list=0x7f060040;
-        public static final int media_route_menu_item=0x7f060045;
-        public static final int media_route_volume_layout=0x7f060041;
-        public static final int media_route_volume_slider=0x7f060042;
+        public static final int media_route_control_frame=0x7f060044;
+        public static final int media_route_disconnect_button=0x7f060045;
+        public static final int media_route_list=0x7f060041;
+        public static final int media_route_menu_item=0x7f060046;
+        public static final int media_route_volume_layout=0x7f060042;
+        public static final int media_route_volume_slider=0x7f060043;
         public static final int middle=0x7f060015;
         public static final int never=0x7f06000d;
         public static final int none=0x7f060000;
@@ -1288,6 +1288,7 @@ containing a value of this type.
         public static final int terrain=0x7f060003;
         public static final int title=0x7f06002e;
         public static final int top_action_bar=0x7f060023;
+        public static final int txtLastUpdate=0x7f060040;
         public static final int up=0x7f060024;
         public static final int useLogo=0x7f060007;
         public static final int voiceButton=0x7f06003f;

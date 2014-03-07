@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <string name="app_name">Cast Hello Text</string>
+    <string name="app_name">casTwit</string>
     <string name="app_id">6B1EB284</string>
     <string name="namespace">urn:x-cast:com.google.cast.sample.helloworld</string>
     <string name="action_settings">Settings</string>
