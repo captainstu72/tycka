@@ -16,7 +16,8 @@
 -->
 <resources>
 
-    <string name="app_name">casTwit</string>
+    <string name="app_name">SocialCast</string>
+    <string name="app_desc">The Information Ticker</string>
     <string name="app_id">6B1EB284</string>
     <string name="namespace">urn:x-cast:com.socialcast.ticker.data</string>
     <string name="action_settings">Settings</string>
