@@ -386,6 +386,7 @@ public class MainActivity extends ActionBarActivity {
                             }
                         });
                 
+                //update our text view:
                 SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
                 String currentDateandTime = sdf.format(new Date());
                 ((TextView) findViewById(R.id.txtLastUpdate)).setText("Last updated: " + currentDateandTime);
