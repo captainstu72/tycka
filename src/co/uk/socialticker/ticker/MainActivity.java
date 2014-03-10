@@ -424,6 +424,18 @@ public class MainActivity extends ActionBarActivity {
     	JSONObject json = writeJSON(title,message);
     	sendMessage(json.toString());    	
     }
+    
+    public JSONObject writeJSON(String title, String message) {
+    	JSONObject object = new JSONObject();
+    	try {
+    		object.put("title", title);
+    		object.put("message", message);
+    	} catch (JSONException e) {
+    		e.printStackTrace();
+    	}
+    	System.out.println(object);
+		return object;
+    }
 
     /**
      * Custom message channel
@@ -446,18 +458,6 @@ public class MainActivity extends ActionBarActivity {
             Log.d(TAG, "onMessageReceived: " + message);
         }
 
-    }
-    
-    public JSONObject writeJSON(String title, String message) {
-    	JSONObject object = new JSONObject();
-    	try {
-    		object.put("title", title);
-    		object.put("message", message);
-    	} catch (JSONException e) {
-    		e.printStackTrace();
-    	}
-    	System.out.println(object);
-		return object;
     }
 }
 
