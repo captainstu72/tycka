@@ -87,7 +87,6 @@ public class MainActivity extends ActionBarActivity {
         // get text
         Button voiceButton = (Button) findViewById(R.id.voiceButton);
         voiceButton.setOnClickListener(new OnClickListener() {
-            @Override
             public void onClick(View v) {                
                 startVoiceRecognitionActivity();
             }
@@ -225,7 +224,6 @@ public class MainActivity extends ActionBarActivity {
      */
     private class ConnectionCallbacks implements
             GoogleApiClient.ConnectionCallbacks {
-        @Override
         public void onConnected(Bundle connectionHint) {
             Log.d(TAG, "onConnected");
 
@@ -261,7 +259,6 @@ public class MainActivity extends ActionBarActivity {
                                     getString(R.string.app_id), false)
                             .setResultCallback(
                                     new ResultCallback<Cast.ApplicationConnectionResult>() {
-                                        @Override
                                         public void onResult(
                                                 ApplicationConnectionResult result) {
                                             Status status = result.getStatus();
@@ -321,7 +318,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        @Override
         public void onConnectionSuspended(int cause) {
             Log.d(TAG, "onConnectionSuspended");
             mWaitingForReconnect = true;
@@ -333,7 +329,6 @@ public class MainActivity extends ActionBarActivity {
      */
     private class ConnectionFailedListener implements
             GoogleApiClient.OnConnectionFailedListener {
-        @Override
         public void onConnectionFailed(ConnectionResult result) {
             Log.e(TAG, "onConnectionFailed ");
 
@@ -379,10 +374,11 @@ public class MainActivity extends ActionBarActivity {
                 Cast.CastApi.sendMessage(mApiClient,
                         mHelloWorldChannel.getNamespace(), message)
                         .setResultCallback(new ResultCallback<Status>() {
-                            @Override
                             public void onResult(Status result) {
                                 if (!result.isSuccess()) {
                                     Log.e(TAG, "Sending message failed");
+                                } else {
+                                	Log.e(TAG, "Sending message success");
                                 }
                             }
                         });
@@ -415,7 +411,6 @@ public class MainActivity extends ActionBarActivity {
         /*
          * Receive message from the receiver app
          */
-        @Override
         public void onMessageReceived(CastDevice castDevice, String namespace,
                 String message) {
             Log.d(TAG, "onMessageReceived: " + message);
