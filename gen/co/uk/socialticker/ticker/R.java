@@ -1195,31 +1195,33 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f02006c;
         public static final int common_signin_btn_text_pressed_dark=0x7f02006d;
         public static final int common_signin_btn_text_pressed_light=0x7f02006e;
-        public static final int ic_launcher=0x7f02006f;
-        public static final int ic_plusone_medium_off_client=0x7f020070;
-        public static final int ic_plusone_small_off_client=0x7f020071;
-        public static final int ic_plusone_standard_off_client=0x7f020072;
-        public static final int ic_plusone_tall_off_client=0x7f020073;
-        public static final int mr_ic_audio_vol=0x7f020074;
-        public static final int mr_ic_media_route_connecting_holo_dark=0x7f020075;
-        public static final int mr_ic_media_route_connecting_holo_light=0x7f020076;
-        public static final int mr_ic_media_route_disabled_holo_dark=0x7f020077;
-        public static final int mr_ic_media_route_disabled_holo_light=0x7f020078;
-        public static final int mr_ic_media_route_holo_dark=0x7f020079;
-        public static final int mr_ic_media_route_holo_light=0x7f02007a;
-        public static final int mr_ic_media_route_off_holo_dark=0x7f02007b;
-        public static final int mr_ic_media_route_off_holo_light=0x7f02007c;
-        public static final int mr_ic_media_route_on_0_holo_dark=0x7f02007d;
-        public static final int mr_ic_media_route_on_0_holo_light=0x7f02007e;
-        public static final int mr_ic_media_route_on_1_holo_dark=0x7f02007f;
-        public static final int mr_ic_media_route_on_1_holo_light=0x7f020080;
-        public static final int mr_ic_media_route_on_2_holo_dark=0x7f020081;
-        public static final int mr_ic_media_route_on_2_holo_light=0x7f020082;
-        public static final int mr_ic_media_route_on_holo_dark=0x7f020083;
-        public static final int mr_ic_media_route_on_holo_light=0x7f020084;
-        public static final int voice=0x7f020085;
-        public static final int voice_button=0x7f020086;
-        public static final int voice_selected=0x7f020087;
+        public static final int ic_action_emo_basic=0x7f02006f;
+        public static final int ic_action_emo_cry=0x7f020070;
+        public static final int ic_launcher=0x7f020071;
+        public static final int ic_plusone_medium_off_client=0x7f020072;
+        public static final int ic_plusone_small_off_client=0x7f020073;
+        public static final int ic_plusone_standard_off_client=0x7f020074;
+        public static final int ic_plusone_tall_off_client=0x7f020075;
+        public static final int mr_ic_audio_vol=0x7f020076;
+        public static final int mr_ic_media_route_connecting_holo_dark=0x7f020077;
+        public static final int mr_ic_media_route_connecting_holo_light=0x7f020078;
+        public static final int mr_ic_media_route_disabled_holo_dark=0x7f020079;
+        public static final int mr_ic_media_route_disabled_holo_light=0x7f02007a;
+        public static final int mr_ic_media_route_holo_dark=0x7f02007b;
+        public static final int mr_ic_media_route_holo_light=0x7f02007c;
+        public static final int mr_ic_media_route_off_holo_dark=0x7f02007d;
+        public static final int mr_ic_media_route_off_holo_light=0x7f02007e;
+        public static final int mr_ic_media_route_on_0_holo_dark=0x7f02007f;
+        public static final int mr_ic_media_route_on_0_holo_light=0x7f020080;
+        public static final int mr_ic_media_route_on_1_holo_dark=0x7f020081;
+        public static final int mr_ic_media_route_on_1_holo_light=0x7f020082;
+        public static final int mr_ic_media_route_on_2_holo_dark=0x7f020083;
+        public static final int mr_ic_media_route_on_2_holo_light=0x7f020084;
+        public static final int mr_ic_media_route_on_holo_dark=0x7f020085;
+        public static final int mr_ic_media_route_on_holo_light=0x7f020086;
+        public static final int voice=0x7f020087;
+        public static final int voice_button=0x7f020088;
+        public static final int voice_selected=0x7f020089;
     }
     public static final class id {
         public static final int action_bar=0x7f06001f;
@@ -1517,6 +1519,8 @@ containing a value of this type.
          */
         public static final int mr_user_route_category_name=0x7f070028;
         public static final int namespace=0x7f070030;
+        public static final int twitter_api_key=0x7f070035;
+        public static final int twitter_api_secret=0x7f070036;
     }
     public static final class style {
         /** 

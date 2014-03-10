@@ -24,5 +24,7 @@
     <string name="message_to_cast">Message to Cast&#8230;</string>
     <string name="media_route_menu_title">Play on&#8230;</string>
     <string name="instructions">Talk to me</string>
+    <string name="twitter_api_key">UV9HB4ehoApafmTiqcNzg</string>
+    <string name="twitter_api_secret">IMuHFQP3cCApXnTGEpwK5DpyjZZUQUSETnYp5lvB7o</string>
 
 </resources>

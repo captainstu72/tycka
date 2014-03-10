@@ -88,8 +88,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(
-                android.R.color.transparent));
+        //actionBar.setBackgroundDrawable(new ColorDrawable(
+        //        android.R.color.transparent));
         actionBar.setTitle(getString(R.string.app_name));
         actionBar.setSubtitle(getString(R.string.app_desc));
 
