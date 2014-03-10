@@ -33,8 +33,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.cast.ApplicationMetadata;
 import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.Cast.ApplicationConnectionResult;
@@ -45,11 +47,16 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
 import co.uk.socialticker.ticker.R;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Main activity to send messages to the receiver.
@@ -71,6 +78,9 @@ public class MainActivity extends ActionBarActivity {
     private HelloWorldChannel mHelloWorldChannel;
     private boolean mApplicationStarted;
     private boolean mWaitingForReconnect;
+    
+    private static Button btnUpdate;
+    private static EditText etTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +95,20 @@ public class MainActivity extends ActionBarActivity {
 
         // When the user clicks on the button, use Android voice recognition to
         // get text
+        
         Button voiceButton = (Button) findViewById(R.id.voiceButton);
         voiceButton.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View v) {                
                 startVoiceRecognitionActivity();
+            }
+        });
+        etTitle = (EditText) findViewById(R.id.etTitle);
+        btnUpdate = (Button) findViewById(R.id.btnUpdate);
+        btnUpdate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {                
+                sendUpdate(etTitle.getText().toString(),getString(R.string.instructions));
             }
         });
 
@@ -125,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
                     .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches.size() > 0) {
                 Log.d(TAG, matches.get(0));
-                sendMessage(matches.get(0));
+                sendUpdate(etTitle.getText().toString(), matches.get(0));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -224,6 +244,7 @@ public class MainActivity extends ActionBarActivity {
      */
     private class ConnectionCallbacks implements
             GoogleApiClient.ConnectionCallbacks {
+        @Override
         public void onConnected(Bundle connectionHint) {
             Log.d(TAG, "onConnected");
 
@@ -254,11 +275,14 @@ public class MainActivity extends ActionBarActivity {
                     }
                 } else {
                     // Launch the receiver app
+                	//Once the sender application is connected to the receiver application,
+                	//	the custom channel can be created using Cast.CastApi.setMessageReceivedCallbacks:
                     Cast.CastApi
                             .launchApplication(mApiClient,
                                     getString(R.string.app_id), false)
                             .setResultCallback(
                                     new ResultCallback<Cast.ApplicationConnectionResult>() {
+                                        @Override
                                         public void onResult(
                                                 ApplicationConnectionResult result) {
                                             Status status = result.getStatus();
@@ -293,8 +317,7 @@ public class MainActivity extends ActionBarActivity {
                                                     Cast.CastApi
                                                             .setMessageReceivedCallbacks(
                                                                     mApiClient,
-                                                                    mHelloWorldChannel
-                                                                            .getNamespace(),
+                                                                    mHelloWorldChannel.getNamespace(),
                                                                     mHelloWorldChannel);
                                                 } catch (IOException e) {
                                                     Log.e(TAG,
@@ -318,6 +341,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
+        @Override
         public void onConnectionSuspended(int cause) {
             Log.d(TAG, "onConnectionSuspended");
             mWaitingForReconnect = true;
@@ -329,6 +353,7 @@ public class MainActivity extends ActionBarActivity {
      */
     private class ConnectionFailedListener implements
             GoogleApiClient.OnConnectionFailedListener {
+        @Override
         public void onConnectionFailed(ConnectionResult result) {
             Log.e(TAG, "onConnectionFailed ");
 
@@ -374,11 +399,10 @@ public class MainActivity extends ActionBarActivity {
                 Cast.CastApi.sendMessage(mApiClient,
                         mHelloWorldChannel.getNamespace(), message)
                         .setResultCallback(new ResultCallback<Status>() {
+                            @Override
                             public void onResult(Status result) {
                                 if (!result.isSuccess()) {
                                     Log.e(TAG, "Sending message failed");
-                                } else {
-                                	Log.e(TAG, "Sending message success");
                                 }
                             }
                         });
@@ -394,6 +418,11 @@ public class MainActivity extends ActionBarActivity {
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT)
                     .show();
         }
+    }
+    
+    public void sendUpdate(String title, String message) {
+    	JSONObject json = writeJSON(title,message);
+    	sendMessage(json.toString());    	
     }
 
     /**
@@ -411,12 +440,24 @@ public class MainActivity extends ActionBarActivity {
         /*
          * Receive message from the receiver app
          */
+        @Override
         public void onMessageReceived(CastDevice castDevice, String namespace,
                 String message) {
             Log.d(TAG, "onMessageReceived: " + message);
         }
 
     }
-
+    
+    public JSONObject writeJSON(String title, String message) {
+    	JSONObject object = new JSONObject();
+    	try {
+    		object.put("title", title);
+    		object.put("message", message);
+    	} catch (JSONException e) {
+    		e.printStackTrace();
+    	}
+    	System.out.println(object);
+		return object;
+    }
 }
 
