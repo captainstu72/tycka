@@ -17,8 +17,12 @@
 package co.uk.socialticker.ticker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -64,6 +68,14 @@ import org.json.JSONObject;
 public class MainActivity extends ActionBarActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    
+    private static SharedPreferences p;
+	public boolean prefChanged = false;
+    
+    private static String KEY_APP_ID = "PREF_APP_ID";
+    private static String mAppID = "";
+	private static String KEY_CAST_TITLE = "PREF_CAST_TITLE";
+	private static String mCastTitle = "";
 
     private static final int REQUEST_CODE = 1;
 
@@ -80,12 +92,14 @@ public class MainActivity extends ActionBarActivity {
     private boolean mWaitingForReconnect;
     
     private static Button btnUpdate;
-    private static EditText etTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        p = PreferenceManager.getDefaultSharedPreferences(this);
+        mAppID = p.getString(KEY_APP_ID, getString(R.string.app_id));
 
         ActionBar actionBar = getSupportActionBar();
         //actionBar.setBackgroundDrawable(new ColorDrawable(
@@ -103,12 +117,11 @@ public class MainActivity extends ActionBarActivity {
                 startVoiceRecognitionActivity();
             }
         });
-        etTitle = (EditText) findViewById(R.id.etTitle);
         btnUpdate = (Button) findViewById(R.id.btnUpdate);
         btnUpdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {                
-                sendUpdate(etTitle.getText().toString(),getString(R.string.instructions));
+                sendUpdate(mCastTitle,getString(R.string.instructions));
             }
         });
 
@@ -116,8 +129,7 @@ public class MainActivity extends ActionBarActivity {
         mMediaRouter = MediaRouter.getInstance(getApplicationContext());
         mMediaRouteSelector = new MediaRouteSelector.Builder()
                 .addControlCategory(
-                        CastMediaControlIntent.categoryForCast(getResources()
-                                .getString(R.string.app_id))).build();
+                        CastMediaControlIntent.categoryForCast(mAppID)).build();
         mMediaRouterCallback = new MyMediaRouterCallback();
     }
 
@@ -145,7 +157,7 @@ public class MainActivity extends ActionBarActivity {
                     .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches.size() > 0) {
                 Log.d(TAG, matches.get(0));
-                sendUpdate(etTitle.getText().toString(), matches.get(0));
+                sendUpdate(mCastTitle, matches.get(0));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -157,10 +169,14 @@ public class MainActivity extends ActionBarActivity {
         // Start media router discovery
         mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback,
                 MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
+        mAppID = p.getString(KEY_APP_ID, getString(R.string.app_id));
+        mCastTitle = p.getString(KEY_CAST_TITLE,getString(R.string.app_name));
+        Log.d(TAG,"Layout: " + mAppID);
     }
 
     @Override
     protected void onPause() {
+    	prefChanged = false;
         if (isFinishing()) {
             // End media router discovery
             mMediaRouter.removeCallback(mMediaRouterCallback);
@@ -278,8 +294,7 @@ public class MainActivity extends ActionBarActivity {
                 	//Once the sender application is connected to the receiver application,
                 	//	the custom channel can be created using Cast.CastApi.setMessageReceivedCallbacks:
                     Cast.CastApi
-                            .launchApplication(mApiClient,
-                                    getString(R.string.app_id), false)
+                            .launchApplication(mApiClient,mAppID, false)
                             .setResultCallback(
                                     new ResultCallback<Cast.ApplicationConnectionResult>() {
                                         @Override
@@ -420,12 +435,12 @@ public class MainActivity extends ActionBarActivity {
         }
     }
     
-    public void sendUpdate(String title, String message) {
+    private void sendUpdate(String title, String message) {
     	JSONObject json = writeJSON(title,message);
     	sendMessage(json.toString());    	
     }
     
-    public JSONObject writeJSON(String title, String message) {
+    private JSONObject writeJSON(String title, String message) {
     	JSONObject object = new JSONObject();
     	try {
     		object.put("title", title);
@@ -436,6 +451,28 @@ public class MainActivity extends ActionBarActivity {
     	System.out.println(object);
 		return object;
     }
+    
+    //open custom preferences activity
+    public void openSettings() {
+    	Toast.makeText(this, "Open Settings", Toast.LENGTH_SHORT).show();
+    	startActivity(new Intent(this,CustomPreferenceActivity.class));
+    }
+    
+    /* on menu click */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+      // action with ID action_refresh was selected
+	      case R.id.settings:
+	    	  openSettings();
+	    	  break;
+	
+	      default:
+	    	  break;
+	      }
+	
+    	return true;
+	} 
 
     /**
      * Custom message channel
@@ -459,5 +496,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
+
 }
 

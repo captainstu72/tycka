@@ -42,35 +42,11 @@
         android:gravity="center_vertical|center_horizontal"
         android:text="Not yet updated" />
 
-    <EditText
-        android:id="@+id/etTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/txtLastUpdate"
-        android:layout_below="@+id/textView1"
-        android:hint="Enter Title"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="Cast Title" />
-
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/etTitle"
-        android:layout_below="@+id/etTitle"
-        android:text="Update"
-        />
+        android:layout_alignRight="@+id/txtLastUpdate"
+        android:text="Update" />
 
 </RelativeLayout>
