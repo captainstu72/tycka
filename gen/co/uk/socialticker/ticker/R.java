@@ -1225,6 +1225,7 @@ containing a value of this type.
         public static final int voice_selected=0x7f02008a;
     }
     public static final class id {
+        public static final int TextView01=0x7f060046;
         public static final int action_bar=0x7f06001f;
         public static final int action_bar_activity_content=0x7f060018;
         public static final int action_bar_container=0x7f06001e;
@@ -1248,7 +1249,8 @@ containing a value of this type.
         public static final int dropdown=0x7f060013;
         public static final int edit_query=0x7f060033;
         public static final int end=0x7f060016;
-        public static final int etTitle=0x7f06003f;
+        public static final int etImgUrl=0x7f060047;
+        public static final int etTitle=0x7f060040;
         public static final int expand_activities_button=0x7f060029;
         public static final int expanded_menu=0x7f06002f;
         public static final int home=0x7f060017;
@@ -1259,12 +1261,12 @@ containing a value of this type.
         public static final int image=0x7f06002a;
         public static final int listMode=0x7f060005;
         public static final int list_item=0x7f06002c;
-        public static final int media_route_control_frame=0x7f06004b;
-        public static final int media_route_disconnect_button=0x7f06004c;
-        public static final int media_route_list=0x7f060048;
-        public static final int media_route_menu_item=0x7f06004d;
-        public static final int media_route_volume_layout=0x7f060049;
-        public static final int media_route_volume_slider=0x7f06004a;
+        public static final int media_route_control_frame=0x7f06004d;
+        public static final int media_route_disconnect_button=0x7f06004e;
+        public static final int media_route_list=0x7f06004a;
+        public static final int media_route_menu_item=0x7f06004f;
+        public static final int media_route_volume_layout=0x7f06004b;
+        public static final int media_route_volume_slider=0x7f06004c;
         public static final int middle=0x7f060015;
         public static final int never=0x7f06000d;
         public static final int none=0x7f060000;
@@ -1286,7 +1288,7 @@ containing a value of this type.
         public static final int search_plate=0x7f060039;
         public static final int search_src_text=0x7f06003a;
         public static final int search_voice_btn=0x7f06003e;
-        public static final int settings=0x7f06004e;
+        public static final int settings=0x7f060050;
         public static final int shortcut=0x7f060031;
         public static final int showCustom=0x7f06000b;
         public static final int showHome=0x7f060008;
@@ -1295,14 +1297,14 @@ containing a value of this type.
         public static final int submit_area=0x7f06003c;
         public static final int tabMode=0x7f060006;
         public static final int terrain=0x7f060003;
-        public static final int textView1=0x7f060040;
+        public static final int textView1=0x7f06003f;
         public static final int textView2=0x7f060042;
         public static final int title=0x7f06002e;
         public static final int top_action_bar=0x7f060023;
-        public static final int txtLastUpdate=0x7f060047;
+        public static final int txtLastUpdate=0x7f060049;
         public static final int up=0x7f060024;
         public static final int useLogo=0x7f060007;
-        public static final int voiceButton=0x7f060046;
+        public static final int voiceButton=0x7f060048;
         public static final int withText=0x7f060010;
     }
     public static final class integer {

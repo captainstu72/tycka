@@ -76,6 +76,8 @@ public class MainActivity extends ActionBarActivity {
     private static String mAppID = "";
 	private static String KEY_CAST_TITLE = "PREF_CAST_TITLE";
 	private static String mCastTitle = "";
+	private static String KEY_CAST_IMGURL = "PREF_CAST_IMGURL";
+	private static String mImgUrl = "";
 
     private static final int REQUEST_CODE = 1;
 
@@ -121,7 +123,7 @@ public class MainActivity extends ActionBarActivity {
         btnUpdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {                
-                sendUpdate(mCastTitle,getString(R.string.instructions));
+                sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl);
             }
         });
 
@@ -157,7 +159,7 @@ public class MainActivity extends ActionBarActivity {
                     .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches.size() > 0) {
                 Log.d(TAG, matches.get(0));
-                sendUpdate(mCastTitle, matches.get(0));
+                sendUpdate(mCastTitle, matches.get(0),mImgUrl);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -171,6 +173,7 @@ public class MainActivity extends ActionBarActivity {
                 MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
         mAppID = p.getString(KEY_APP_ID, getString(R.string.app_id));
         mCastTitle = p.getString(KEY_CAST_TITLE,getString(R.string.app_name));
+        mImgUrl = p.getString(KEY_CAST_IMGURL,"");
         Log.d(TAG,"Layout: " + mAppID);
     }
 
@@ -435,16 +438,17 @@ public class MainActivity extends ActionBarActivity {
         }
     }
     
-    private void sendUpdate(String title, String message) {
-    	JSONObject json = writeJSON(title,message);
+    private void sendUpdate(String title, String message, String imgurl) {
+    	JSONObject json = writeJSON(title,message, imgurl);
     	sendMessage(json.toString());    	
     }
     
-    private JSONObject writeJSON(String title, String message) {
+    private JSONObject writeJSON(String title, String message, String imgurl) {
     	JSONObject object = new JSONObject();
     	try {
     		object.put("title", title);
     		object.put("message", message);
+    		object.put("imgurl", imgurl);
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
