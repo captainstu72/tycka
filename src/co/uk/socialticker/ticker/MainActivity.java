@@ -78,6 +78,8 @@ public class MainActivity extends ActionBarActivity {
 	private static String mCastTitle = "";
 	private static String KEY_CAST_IMGURL = "PREF_CAST_IMGURL";
 	private static String mImgUrl = "";
+	private static String KEY_CAST_HASHTAG = "PREF_CAST_HASHTAG";
+	private static String mHashTag = "";
 
     private static final int REQUEST_CODE = 1;
 
@@ -123,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
         btnUpdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {                
-                sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl);
+                sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag);
             }
         });
 
@@ -159,7 +161,7 @@ public class MainActivity extends ActionBarActivity {
                     .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches.size() > 0) {
                 Log.d(TAG, matches.get(0));
-                sendUpdate(mCastTitle, matches.get(0),mImgUrl);
+                sendUpdate(mCastTitle, matches.get(0),mImgUrl, mHashTag);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -174,6 +176,7 @@ public class MainActivity extends ActionBarActivity {
         mAppID = p.getString(KEY_APP_ID, getString(R.string.app_id));
         mCastTitle = p.getString(KEY_CAST_TITLE,getString(R.string.app_name));
         mImgUrl = p.getString(KEY_CAST_IMGURL,"");
+        mHashTag = p.getString(KEY_CAST_HASHTAG,"");
         Log.d(TAG,"Layout: " + mAppID);
     }
 
@@ -438,17 +441,18 @@ public class MainActivity extends ActionBarActivity {
         }
     }
     
-    private void sendUpdate(String title, String message, String imgurl) {
-    	JSONObject json = writeJSON(title,message, imgurl);
+    private void sendUpdate(String title, String message, String imgurl, String hashTag) {
+    	JSONObject json = writeJSON(title,message, imgurl, hashTag);
     	sendMessage(json.toString());    	
     }
     
-    private JSONObject writeJSON(String title, String message, String imgurl) {
+    private JSONObject writeJSON(String title, String message, String imgurl, String hashTag) {
     	JSONObject object = new JSONObject();
     	try {
     		object.put("title", title);
     		object.put("message", message);
     		object.put("imgurl", imgurl);
+    		object.put("hashtag",hashTag);
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
@@ -458,7 +462,7 @@ public class MainActivity extends ActionBarActivity {
     
     //open custom preferences activity
     public void openSettings() {
-    	Toast.makeText(this, "Open Settings", Toast.LENGTH_SHORT).show();
+    	//Toast.makeText(this, "Open Settings", Toast.LENGTH_SHORT).show();
     	startActivity(new Intent(this,CustomPreferenceActivity.class));
     }
     
@@ -469,6 +473,9 @@ public class MainActivity extends ActionBarActivity {
       // action with ID action_refresh was selected
 	      case R.id.settings:
 	    	  openSettings();
+	    	  break;
+	      case R.id.twitter:
+	    	  startActivity(new Intent(this,TwitterActivity.class));
 	    	  break;
 	
 	      default:

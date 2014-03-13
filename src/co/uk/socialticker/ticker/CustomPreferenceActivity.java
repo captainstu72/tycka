@@ -21,12 +21,14 @@ public class CustomPreferenceActivity extends ActionBarActivity {
 	
 	static EditText etTitle;
 	static EditText etImgUrl;
+	static EditText etHashTag;
 	static RadioGroup rg;
 	
 	private static String KEY_APP_ID = "PREF_APP_ID";
 	private static String KEY_APP_RGID = "PREF_APP_RGID";
 	private static String KEY_CAST_TITLE = "PREF_CAST_TITLE";
 	private static String KEY_CAST_IMGURL = "PREF_CAST_IMGURL";
+	private static String KEY_CAST_HASHTAG = "PREF_CAST_HASHTAG";
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class CustomPreferenceActivity extends ActionBarActivity {
         etTitle = (EditText) findViewById(R.id.etTitle);
 		rg = (RadioGroup) findViewById(R.id.rgLayout);
 		etImgUrl = (EditText) findViewById(R.id.etImgUrl);
+		etHashTag = (EditText) findViewById(R.id.etHashTag);
         
         //load the current prefs
         getPrefs();
@@ -58,6 +61,7 @@ public class CustomPreferenceActivity extends ActionBarActivity {
 		//not sure how the hell I am going to do this for the radiogroup!
 		rg.check(p.getInt(KEY_APP_RGID,R.id.rdoApp1));
 		etImgUrl.setText(p.getString(KEY_CAST_IMGURL,null));
+		etHashTag.setText(p.getString(KEY_CAST_HASHTAG,null));
 		
 	}
 	
@@ -74,6 +78,7 @@ public class CustomPreferenceActivity extends ActionBarActivity {
 		pe.putInt(KEY_APP_RGID,selectedID).commit();	
 		pe.putString(KEY_CAST_TITLE,etTitle.getText().toString()).commit();
 		pe.putString(KEY_CAST_IMGURL,etImgUrl.getText().toString()).commit();
+		pe.putString(KEY_CAST_HASHTAG,etHashTag.getText().toString()).commit();
 		
 	}
 	

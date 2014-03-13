@@ -105,4 +105,23 @@
         android:ems="10"
         android:hint="Enter URL" />
 
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/etImgUrl"
+        android:text="Search Hashtag" />
+
+    <EditText
+        android:id="@+id/etHashTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/TextView02"
+        android:ems="10"
+        android:hint="Enter Hashtag" />
+
 </RelativeLayout>

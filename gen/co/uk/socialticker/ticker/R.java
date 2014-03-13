@@ -1198,34 +1198,36 @@ containing a value of this type.
         public static final int ic_action_emo_basic=0x7f02006f;
         public static final int ic_action_emo_cry=0x7f020070;
         public static final int ic_action_settings=0x7f020071;
-        public static final int ic_launcher=0x7f020072;
-        public static final int ic_plusone_medium_off_client=0x7f020073;
-        public static final int ic_plusone_small_off_client=0x7f020074;
-        public static final int ic_plusone_standard_off_client=0x7f020075;
-        public static final int ic_plusone_tall_off_client=0x7f020076;
-        public static final int mr_ic_audio_vol=0x7f020077;
-        public static final int mr_ic_media_route_connecting_holo_dark=0x7f020078;
-        public static final int mr_ic_media_route_connecting_holo_light=0x7f020079;
-        public static final int mr_ic_media_route_disabled_holo_dark=0x7f02007a;
-        public static final int mr_ic_media_route_disabled_holo_light=0x7f02007b;
-        public static final int mr_ic_media_route_holo_dark=0x7f02007c;
-        public static final int mr_ic_media_route_holo_light=0x7f02007d;
-        public static final int mr_ic_media_route_off_holo_dark=0x7f02007e;
-        public static final int mr_ic_media_route_off_holo_light=0x7f02007f;
-        public static final int mr_ic_media_route_on_0_holo_dark=0x7f020080;
-        public static final int mr_ic_media_route_on_0_holo_light=0x7f020081;
-        public static final int mr_ic_media_route_on_1_holo_dark=0x7f020082;
-        public static final int mr_ic_media_route_on_1_holo_light=0x7f020083;
-        public static final int mr_ic_media_route_on_2_holo_dark=0x7f020084;
-        public static final int mr_ic_media_route_on_2_holo_light=0x7f020085;
-        public static final int mr_ic_media_route_on_holo_dark=0x7f020086;
-        public static final int mr_ic_media_route_on_holo_light=0x7f020087;
-        public static final int voice=0x7f020088;
-        public static final int voice_button=0x7f020089;
-        public static final int voice_selected=0x7f02008a;
+        public static final int ic_action_twitter=0x7f020072;
+        public static final int ic_launcher=0x7f020073;
+        public static final int ic_plusone_medium_off_client=0x7f020074;
+        public static final int ic_plusone_small_off_client=0x7f020075;
+        public static final int ic_plusone_standard_off_client=0x7f020076;
+        public static final int ic_plusone_tall_off_client=0x7f020077;
+        public static final int mr_ic_audio_vol=0x7f020078;
+        public static final int mr_ic_media_route_connecting_holo_dark=0x7f020079;
+        public static final int mr_ic_media_route_connecting_holo_light=0x7f02007a;
+        public static final int mr_ic_media_route_disabled_holo_dark=0x7f02007b;
+        public static final int mr_ic_media_route_disabled_holo_light=0x7f02007c;
+        public static final int mr_ic_media_route_holo_dark=0x7f02007d;
+        public static final int mr_ic_media_route_holo_light=0x7f02007e;
+        public static final int mr_ic_media_route_off_holo_dark=0x7f02007f;
+        public static final int mr_ic_media_route_off_holo_light=0x7f020080;
+        public static final int mr_ic_media_route_on_0_holo_dark=0x7f020081;
+        public static final int mr_ic_media_route_on_0_holo_light=0x7f020082;
+        public static final int mr_ic_media_route_on_1_holo_dark=0x7f020083;
+        public static final int mr_ic_media_route_on_1_holo_light=0x7f020084;
+        public static final int mr_ic_media_route_on_2_holo_dark=0x7f020085;
+        public static final int mr_ic_media_route_on_2_holo_light=0x7f020086;
+        public static final int mr_ic_media_route_on_holo_dark=0x7f020087;
+        public static final int mr_ic_media_route_on_holo_light=0x7f020088;
+        public static final int voice=0x7f020089;
+        public static final int voice_button=0x7f02008a;
+        public static final int voice_selected=0x7f02008b;
     }
     public static final class id {
         public static final int TextView01=0x7f060046;
+        public static final int TextView02=0x7f060048;
         public static final int action_bar=0x7f06001f;
         public static final int action_bar_activity_content=0x7f060018;
         public static final int action_bar_container=0x7f06001e;
@@ -1240,7 +1242,10 @@ containing a value of this type.
         public static final int activity_chooser_view_content=0x7f060028;
         public static final int always=0x7f06000f;
         public static final int beginning=0x7f060014;
+        public static final int btnLoginTwitter=0x7f06004c;
+        public static final int btnLogoutTwitter=0x7f060051;
         public static final int btnUpdate=0x7f060041;
+        public static final int btnUpdateStatus=0x7f060050;
         public static final int checkbox=0x7f060030;
         public static final int collapseActionView=0x7f060011;
         public static final int default_activity_button=0x7f06002b;
@@ -1249,6 +1254,7 @@ containing a value of this type.
         public static final int dropdown=0x7f060013;
         public static final int edit_query=0x7f060033;
         public static final int end=0x7f060016;
+        public static final int etHashTag=0x7f060049;
         public static final int etImgUrl=0x7f060047;
         public static final int etTitle=0x7f060040;
         public static final int expand_activities_button=0x7f060029;
@@ -1259,14 +1265,16 @@ containing a value of this type.
         public static final int icon=0x7f06002d;
         public static final int ifRoom=0x7f06000e;
         public static final int image=0x7f06002a;
+        public static final int lblUpdate=0x7f06004e;
+        public static final int lblUserName=0x7f06004d;
         public static final int listMode=0x7f060005;
         public static final int list_item=0x7f06002c;
-        public static final int media_route_control_frame=0x7f06004d;
-        public static final int media_route_disconnect_button=0x7f06004e;
-        public static final int media_route_list=0x7f06004a;
-        public static final int media_route_menu_item=0x7f06004f;
-        public static final int media_route_volume_layout=0x7f06004b;
-        public static final int media_route_volume_slider=0x7f06004c;
+        public static final int media_route_control_frame=0x7f060055;
+        public static final int media_route_disconnect_button=0x7f060056;
+        public static final int media_route_list=0x7f060052;
+        public static final int media_route_menu_item=0x7f060057;
+        public static final int media_route_volume_layout=0x7f060053;
+        public static final int media_route_volume_slider=0x7f060054;
         public static final int middle=0x7f060015;
         public static final int never=0x7f06000d;
         public static final int none=0x7f060000;
@@ -1288,7 +1296,7 @@ containing a value of this type.
         public static final int search_plate=0x7f060039;
         public static final int search_src_text=0x7f06003a;
         public static final int search_voice_btn=0x7f06003e;
-        public static final int settings=0x7f060050;
+        public static final int settings=0x7f060058;
         public static final int shortcut=0x7f060031;
         public static final int showCustom=0x7f06000b;
         public static final int showHome=0x7f060008;
@@ -1301,10 +1309,12 @@ containing a value of this type.
         public static final int textView2=0x7f060042;
         public static final int title=0x7f06002e;
         public static final int top_action_bar=0x7f060023;
-        public static final int txtLastUpdate=0x7f060049;
+        public static final int twitter=0x7f060059;
+        public static final int txtLastUpdate=0x7f06004b;
+        public static final int txtUpdateStatus=0x7f06004f;
         public static final int up=0x7f060024;
         public static final int useLogo=0x7f060007;
-        public static final int voiceButton=0x7f060048;
+        public static final int voiceButton=0x7f06004a;
         public static final int withText=0x7f060010;
     }
     public static final class integer {
@@ -1359,10 +1369,11 @@ containing a value of this type.
         public static final int abc_search_view=0x7f030016;
         public static final int activity_custompreference=0x7f030017;
         public static final int activity_main=0x7f030018;
-        public static final int mr_media_route_chooser_dialog=0x7f030019;
-        public static final int mr_media_route_controller_dialog=0x7f03001a;
-        public static final int mr_media_route_list_item=0x7f03001b;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
+        public static final int activity_twitter=0x7f030019;
+        public static final int mr_media_route_chooser_dialog=0x7f03001a;
+        public static final int mr_media_route_controller_dialog=0x7f03001b;
+        public static final int mr_media_route_list_item=0x7f03001c;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -1530,6 +1541,7 @@ containing a value of this type.
         public static final int mr_user_route_category_name=0x7f070028;
         public static final int namespace=0x7f070031;
         public static final int settings=0x7f070038;
+        public static final int twitter=0x7f070039;
         public static final int twitter_api_key=0x7f070036;
         public static final int twitter_api_secret=0x7f070037;
     }

@@ -28,5 +28,13 @@
         android:title="@string/settings"
         app:showAsAction="always"
         android:icon="@drawable/ic_action_settings"/>
+    
+    <item
+        android:id="@+id/twitter"
+        android:title="@string/twitter"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_twitter"/>
+    
+    
 
 </menu>

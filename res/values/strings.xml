@@ -28,5 +28,6 @@
     <string name="twitter_api_key">UV9HB4ehoApafmTiqcNzg</string>
     <string name="twitter_api_secret">IMuHFQP3cCApXnTGEpwK5DpyjZZUQUSETnYp5lvB7o</string>
     <string name="settings">Settings</string>
+    <string name="twitter">Twitter</string>
 
 </resources>
