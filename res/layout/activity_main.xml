@@ -24,14 +24,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/voiceButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:background="@drawable/voice_button" />
-
     <TextView
         android:id="@+id/txtLastUpdate"
         android:layout_width="wrap_content"
@@ -46,7 +38,34 @@
         android:id="@+id/btnUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/txtLastUpdate"
         android:layout_alignRight="@+id/txtLastUpdate"
         android:text="Update" />
+
+    <Button
+        android:id="@+id/voiceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txtLastUpdate"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/voice_button" />
+
+    <TextView
+        android:id="@+id/jsonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/voiceButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="https://api.twitter.com/1.1/search/tweets.json?q=%23motd2014" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/jsonText"
+        android:layout_below="@+id/jsonText"
+        android:text="Search test" />
 
 </RelativeLayout>

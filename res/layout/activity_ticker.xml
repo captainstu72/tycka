@@ -1,0 +1,189 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Cards.Container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="2" >
+
+    <!-- Twitter Login Button -->
+
+
+    <!-- user name label -->
+
+
+    <!-- label update status -->
+
+
+    <!-- Tweet EditText -->
+
+
+    <!-- Tweet Button -->
+
+
+    <!-- Twitter Logout button -->
+
+    <LinearLayout
+        style="@style/Cards.Container.Card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/ImageView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_twitter" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="left|center_vertical"
+                android:text="Twitter Settings" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray_solid" />
+
+        <Button
+            android:id="@+id/btnLoginTwitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:textSize="14sp" 
+            android:text="Login with Twitter"/>
+
+        <TextView
+            android:id="@+id/lblUserName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip" />
+
+        <TextView
+            android:id="@+id/lblUpdate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Status"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/txtUpdateStatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnUpdateStatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Tweet"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:textSize="14sp" 
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnLogoutTwitter"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout from Twitter"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:textSize="14sp" 
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/Cards.Container.Card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/mr_ic_media_route_holo_light" />
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="left|center_vertical"
+                android:text="Cast Settings" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray_solid" />
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Title" />
+
+        <EditText
+            android:id="@+id/etImgUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Logo Image URL" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/etHashTag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Hashtag" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/button1"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/button3"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Update" />
+
+    </LinearLayout>
+
+</LinearLayout>

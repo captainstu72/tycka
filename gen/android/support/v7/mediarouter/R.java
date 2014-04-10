@@ -137,7 +137,7 @@ public final class R {
 		public static final int abc_split_action_bar_is_narrow = 0x7f090002;
 	}
 	public static final class color {
-		public static final int abc_search_url_text_holo = 0x7f05000d;
+		public static final int abc_search_url_text_holo = 0x7f05002c;
 		public static final int abc_search_url_text_normal = 0x7f05000a;
 		public static final int abc_search_url_text_pressed = 0x7f05000c;
 		public static final int abc_search_url_text_selected = 0x7f05000b;
@@ -249,23 +249,23 @@ public final class R {
 		public static final int abc_textfield_searchview_holo_light = 0x7f020054;
 		public static final int abc_textfield_searchview_right_holo_dark = 0x7f020055;
 		public static final int abc_textfield_searchview_right_holo_light = 0x7f020056;
-		public static final int mr_ic_audio_vol = 0x7f020078;
-		public static final int mr_ic_media_route_connecting_holo_dark = 0x7f020079;
-		public static final int mr_ic_media_route_connecting_holo_light = 0x7f02007a;
-		public static final int mr_ic_media_route_disabled_holo_dark = 0x7f02007b;
-		public static final int mr_ic_media_route_disabled_holo_light = 0x7f02007c;
-		public static final int mr_ic_media_route_holo_dark = 0x7f02007d;
-		public static final int mr_ic_media_route_holo_light = 0x7f02007e;
-		public static final int mr_ic_media_route_off_holo_dark = 0x7f02007f;
-		public static final int mr_ic_media_route_off_holo_light = 0x7f020080;
-		public static final int mr_ic_media_route_on_0_holo_dark = 0x7f020081;
-		public static final int mr_ic_media_route_on_0_holo_light = 0x7f020082;
-		public static final int mr_ic_media_route_on_1_holo_dark = 0x7f020083;
-		public static final int mr_ic_media_route_on_1_holo_light = 0x7f020084;
-		public static final int mr_ic_media_route_on_2_holo_dark = 0x7f020085;
-		public static final int mr_ic_media_route_on_2_holo_light = 0x7f020086;
-		public static final int mr_ic_media_route_on_holo_dark = 0x7f020087;
-		public static final int mr_ic_media_route_on_holo_light = 0x7f020088;
+		public static final int mr_ic_audio_vol = 0x7f02007d;
+		public static final int mr_ic_media_route_connecting_holo_dark = 0x7f02007e;
+		public static final int mr_ic_media_route_connecting_holo_light = 0x7f02007f;
+		public static final int mr_ic_media_route_disabled_holo_dark = 0x7f020080;
+		public static final int mr_ic_media_route_disabled_holo_light = 0x7f020081;
+		public static final int mr_ic_media_route_holo_dark = 0x7f020082;
+		public static final int mr_ic_media_route_holo_light = 0x7f020083;
+		public static final int mr_ic_media_route_off_holo_dark = 0x7f020084;
+		public static final int mr_ic_media_route_off_holo_light = 0x7f020085;
+		public static final int mr_ic_media_route_on_0_holo_dark = 0x7f020086;
+		public static final int mr_ic_media_route_on_0_holo_light = 0x7f020087;
+		public static final int mr_ic_media_route_on_1_holo_dark = 0x7f020088;
+		public static final int mr_ic_media_route_on_1_holo_light = 0x7f020089;
+		public static final int mr_ic_media_route_on_2_holo_dark = 0x7f02008a;
+		public static final int mr_ic_media_route_on_2_holo_light = 0x7f02008b;
+		public static final int mr_ic_media_route_on_holo_dark = 0x7f02008c;
+		public static final int mr_ic_media_route_on_holo_light = 0x7f02008d;
 	}
 	public static final class id {
 		public static final int action_bar = 0x7f06001f;
@@ -299,11 +299,11 @@ public final class R {
 		public static final int image = 0x7f06002a;
 		public static final int listMode = 0x7f060005;
 		public static final int list_item = 0x7f06002c;
-		public static final int media_route_control_frame = 0x7f060055;
-		public static final int media_route_disconnect_button = 0x7f060056;
-		public static final int media_route_list = 0x7f060052;
-		public static final int media_route_volume_layout = 0x7f060053;
-		public static final int media_route_volume_slider = 0x7f060054;
+		public static final int media_route_control_frame = 0x7f06005b;
+		public static final int media_route_disconnect_button = 0x7f06005c;
+		public static final int media_route_list = 0x7f060058;
+		public static final int media_route_volume_layout = 0x7f060059;
+		public static final int media_route_volume_slider = 0x7f06005a;
 		public static final int middle = 0x7f060015;
 		public static final int never = 0x7f06000d;
 		public static final int none = 0x7f060000;
@@ -361,31 +361,31 @@ public final class R {
 		public static final int abc_popup_menu_item_layout = 0x7f030014;
 		public static final int abc_search_dropdown_item_icons_2line = 0x7f030015;
 		public static final int abc_search_view = 0x7f030016;
-		public static final int mr_media_route_chooser_dialog = 0x7f03001a;
-		public static final int mr_media_route_controller_dialog = 0x7f03001b;
-		public static final int mr_media_route_list_item = 0x7f03001c;
-		public static final int support_simple_spinner_dropdown_item = 0x7f03001d;
+		public static final int mr_media_route_chooser_dialog = 0x7f03001b;
+		public static final int mr_media_route_controller_dialog = 0x7f03001c;
+		public static final int mr_media_route_list_item = 0x7f03001d;
+		public static final int support_simple_spinner_dropdown_item = 0x7f03001e;
 	}
 	public static final class string {
-		public static final int abc_action_bar_home_description = 0x7f07001b;
-		public static final int abc_action_bar_up_description = 0x7f07001c;
-		public static final int abc_action_menu_overflow_description = 0x7f07001d;
-		public static final int abc_action_mode_done = 0x7f07001a;
-		public static final int abc_activity_chooser_view_see_all = 0x7f070024;
-		public static final int abc_activitychooserview_choose_application = 0x7f070023;
-		public static final int abc_searchview_description_clear = 0x7f070020;
-		public static final int abc_searchview_description_query = 0x7f07001f;
-		public static final int abc_searchview_description_search = 0x7f07001e;
-		public static final int abc_searchview_description_submit = 0x7f070021;
-		public static final int abc_searchview_description_voice = 0x7f070022;
-		public static final int abc_shareactionprovider_share_with = 0x7f070026;
-		public static final int abc_shareactionprovider_share_with_application = 0x7f070025;
-		public static final int mr_media_route_button_content_description = 0x7f070029;
-		public static final int mr_media_route_chooser_searching = 0x7f07002b;
-		public static final int mr_media_route_chooser_title = 0x7f07002a;
-		public static final int mr_media_route_controller_disconnect = 0x7f07002c;
-		public static final int mr_system_route_name = 0x7f070027;
-		public static final int mr_user_route_category_name = 0x7f070028;
+		public static final int abc_action_bar_home_description = 0x7f07001c;
+		public static final int abc_action_bar_up_description = 0x7f07001d;
+		public static final int abc_action_menu_overflow_description = 0x7f07001e;
+		public static final int abc_action_mode_done = 0x7f07001b;
+		public static final int abc_activity_chooser_view_see_all = 0x7f070025;
+		public static final int abc_activitychooserview_choose_application = 0x7f070024;
+		public static final int abc_searchview_description_clear = 0x7f070021;
+		public static final int abc_searchview_description_query = 0x7f070020;
+		public static final int abc_searchview_description_search = 0x7f07001f;
+		public static final int abc_searchview_description_submit = 0x7f070022;
+		public static final int abc_searchview_description_voice = 0x7f070023;
+		public static final int abc_shareactionprovider_share_with = 0x7f070027;
+		public static final int abc_shareactionprovider_share_with_application = 0x7f070026;
+		public static final int mr_media_route_button_content_description = 0x7f07002a;
+		public static final int mr_media_route_chooser_searching = 0x7f07002c;
+		public static final int mr_media_route_chooser_title = 0x7f07002b;
+		public static final int mr_media_route_controller_disconnect = 0x7f07002d;
+		public static final int mr_system_route_name = 0x7f070028;
+		public static final int mr_user_route_category_name = 0x7f070029;
 	}
 	public static final class style {
 		public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog = 0x7f0b0063;
