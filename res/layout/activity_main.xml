@@ -68,4 +68,13 @@
         android:layout_below="@+id/jsonText"
         android:text="Search test" />
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/voiceButton"
+        android:layout_alignLeft="@+id/voiceButton"
+        android:onClick="goNewLayout"
+        android:text="Go to new" />
+
 </RelativeLayout>

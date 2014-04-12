@@ -484,6 +484,11 @@ public class MainActivity extends ActionBarActivity {
 	
     	return true;
 	} 
+    
+    public void goNewLayout(View v) {
+    	startActivity(new Intent(this,TickerActivity.class));
+    	finish();
+    }
 
     /**
      * Custom message channel

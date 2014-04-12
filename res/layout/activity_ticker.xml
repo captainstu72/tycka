@@ -6,23 +6,6 @@
     android:orientation="vertical"
     android:weightSum="2" >
 
-    <!-- Twitter Login Button -->
-
-
-    <!-- user name label -->
-
-
-    <!-- label update status -->
-
-
-    <!-- Tweet EditText -->
-
-
-    <!-- Tweet Button -->
-
-
-    <!-- Twitter Logout button -->
-
     <LinearLayout
         style="@style/Cards.Container.Card"
         android:layout_width="match_parent"
@@ -65,12 +48,6 @@
             android:minWidth="0dp"
             android:textSize="14sp" 
             android:text="Login with Twitter"/>
-
-        <TextView
-            android:id="@+id/lblUserName"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dip" />
 
         <TextView
             android:id="@+id/lblUpdate"
@@ -164,6 +141,17 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnSearchTest"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:onClick="doSearchtest"
+        android:text="Test Search (To Toast)"
+        android:textSize="14sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -174,7 +162,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Save" />
+            android:onClick="updatePrefs"
+            android:text="Save Settings" />
 
         <Button
             android:id="@+id/button3"
