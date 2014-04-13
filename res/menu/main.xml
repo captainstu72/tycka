@@ -23,17 +23,17 @@
         app:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
         app:showAsAction="always"/>
     
-    <item
+    <!-- <item
         android:id="@+id/settings"
         android:title="@string/settings"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_settings"/>
+        android:icon="@drawable/ic_action_settings"/> -->
     
-    <item
+    <!-- <item
         android:id="@+id/twitter"
         android:title="@string/twitter"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_twitter"/>
+        android:icon="@drawable/ic_action_twitter"/> -->
     
     
 

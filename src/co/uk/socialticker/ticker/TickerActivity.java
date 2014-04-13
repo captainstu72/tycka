@@ -174,7 +174,7 @@ public class TickerActivity extends ActionBarActivity {
         
         p = PreferenceManager.getDefaultSharedPreferences(this);
         pe = p.edit();
-        mAppID = p.getString(KEY_APP_ID, getString(R.string.app_id));
+        mAppID = getString(R.string.app_id);
 
         ActionBar actionBar = getSupportActionBar();
         //actionBar.setBackgroundDrawable(new ColorDrawable(
@@ -684,12 +684,12 @@ public class TickerActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
       // action with ID action_refresh was selected
-	      case R.id.settings:
+	      /*case R.id.settings:
 	    	  openSettings();
 	    	  break;
 	      case R.id.twitter:
 	    	  startActivity(new Intent(this,TwitterActivity.class));
-	    	  break;
+	    	  break;*/
 	
 	      default:
 	    	  break;
@@ -858,34 +858,45 @@ public class TickerActivity extends ActionBarActivity {
      * @throws TwitterException 
      * */
     public void doSearchtest(View v) throws TwitterException {
-    	Toast.makeText(this, "So this button has been hit then", Toast.LENGTH_SHORT).show();
+    	//Toast.makeText(this, "So this button has been hit then", Toast.LENGTH_SHORT).show();
     	// The factory instance is re-useable and thread safe.
-        try {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-            builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
-             
-            // Access Token 
-            String access_token = mSharedPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
-            // Access Token Secret
-            String access_token_secret = mSharedPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
-             
-            AccessToken accessToken = new AccessToken(access_token, access_token_secret);
-            Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-            Query query = new Query("#MOTD2014");
-            query.count(5);
-            QueryResult result = twitter.search(query);
-            for (twitter4j.Status status : result.getTweets()) {
-            	String mOut = "@" + status.getUser().getScreenName() + ":" + status.getText();
-                System.out.println(mOut);
-
-            	Toast.makeText(this, mOut, Toast.LENGTH_LONG).show();
-            }
-
-        } catch (TwitterException e) {
-            // Error in updating status
-            Log.d("Twitter Search Error", e.getMessage());
-        }
+    	//get the hashtag - check to make sure if returned value is set to something with a length
+    	String qHash = p.getString(KEY_CAST_HASHTAG, "#MOTD2014");
+    	Log.d(TAG,"Hash to search: " + qHash);
+    	if (qHash.length() == 0) {
+    		Toast.makeText(this
+    				, "The hashtag looks like it is not setup. May want to fix that"
+    				, Toast.LENGTH_LONG).show();
+    	} else {
+	        try {
+	            ConfigurationBuilder builder = new ConfigurationBuilder();
+	            builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+	            builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+	             
+	            // Access Token 
+	            String access_token = mSharedPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
+	            // Access Token Secret
+	            String access_token_secret = mSharedPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
+	             
+	            AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+	            Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+	            //Query query = new Query("#MOTD2014");
+	            Query query = new Query(qHash);
+	            query.count(5);
+	            QueryResult result = twitter.search(query);
+	            for (twitter4j.Status status : result.getTweets()) {
+	            	String mOut = "@" + status.getUser().getScreenName() + ":" + status.getText();
+	                System.out.println(mOut);
+	
+	            	Toast.makeText(this, mOut, Toast.LENGTH_LONG).show();
+	            }
+	
+	        } catch (TwitterException e) {
+	            // Error in updating status
+	            Log.d("Twitter Search Error", e.getMessage());
+	            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+	        }
+    	}
     }
 
 }

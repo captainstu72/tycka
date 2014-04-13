@@ -471,12 +471,12 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
       // action with ID action_refresh was selected
-	      case R.id.settings:
+	      /*case R.id.settings:
 	    	  openSettings();
 	    	  break;
 	      case R.id.twitter:
 	    	  startActivity(new Intent(this,TwitterActivity.class));
-	    	  break;
+	    	  break;*/
 	
 	      default:
 	    	  break;
