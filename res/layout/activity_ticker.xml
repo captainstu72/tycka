@@ -148,8 +148,8 @@
         android:layout_height="wrap_content"
         android:minHeight="0dp"
         android:minWidth="0dp"
-        android:onClick="doSearchtest"
-        android:text="Test Search (To Toast)"
+        android:onClick="doSearch"
+        android:text="Test Search (JSA To Toast)"
         android:textSize="14sp" />
 
     <LinearLayout
@@ -157,7 +157,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btnSave"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -166,7 +166,7 @@
             android:text="Save Settings" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnUpdate"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

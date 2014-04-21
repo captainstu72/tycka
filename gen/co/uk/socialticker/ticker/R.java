@@ -1377,12 +1377,12 @@ containing a value of this type.
         public static final int beginning=0x7f060014;
         public static final int btnLoginTwitter=0x7f060050;
         public static final int btnLogoutTwitter=0x7f060054;
+        public static final int btnSave=0x7f060057;
         public static final int btnSearch=0x7f06004c;
         public static final int btnSearchTest=0x7f060056;
         public static final int btnUpdate=0x7f060041;
         public static final int btnUpdateStatus=0x7f060053;
         public static final int button1=0x7f06004d;
-        public static final int button3=0x7f060057;
         public static final int checkbox=0x7f060030;
         public static final int collapseActionView=0x7f060011;
         public static final int default_activity_button=0x7f06002b;
