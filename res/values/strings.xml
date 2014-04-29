@@ -29,5 +29,8 @@
     <string name="twitter_api_secret">IMuHFQP3cCApXnTGEpwK5DpyjZZUQUSETnYp5lvB7o</string>
     <string name="settings">Settings</string>
     <string name="twitter">Twitter</string>
+    <string name="kthnx">Done, thanks.</string>
+    <string name="send_tweet">Send Tweet</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

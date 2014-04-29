@@ -1,12 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Cards.Container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:weightSum="2" >
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/llTwitter"
         style="@style/Cards.Container.Card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -77,14 +78,16 @@
             android:id="@+id/btnLogoutTwitter"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Logout from Twitter"
             android:minHeight="0dp"
             android:minWidth="0dp"
-            android:textSize="14sp" 
+            android:text="Logout from Twitter"
+            android:textSize="14sp"
             android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llCast"
         style="@style/Cards.Container.Card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -117,47 +120,68 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/light_gray_solid" />
-
-        <EditText
-            android:id="@+id/etTitle"
+        
+        <co.uk.socialticker.ticker.FloatLabelLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Title" />
-
-        <EditText
-            android:id="@+id/etImgUrl"
+            android:layout_marginTop="16dp"
+            app:floatLabelTextAppearance="@style/TextAppearance.FloatLabel">
+ 
+	        <EditText
+	            android:id="@+id/etTitle"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:hint="Enter Title"
+	            android:singleLine="true"
+	            android:inputType="textNoSuggestions"
+	            android:imeOptions="actionNext"
+	            android:nextFocusDown="@+id/etImgUrl" />
+ 
+    	</co.uk.socialticker.ticker.FloatLabelLayout>
+    	
+        <co.uk.socialticker.ticker.FloatLabelLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Logo Image URL" >
-
-            <requestFocus />
-        </EditText>
-
-        <EditText
-            android:id="@+id/etHashTag"
+            android:layout_marginTop="16dp"
+            app:floatLabelTextAppearance="@style/TextAppearance.FloatLabel">
+ 
+	        <EditText
+	            android:id="@+id/etImgUrl"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:hint="Enter Logo Image URL"
+	            android:singleLine="true"
+	            android:inputType="textNoSuggestions"
+	            android:imeOptions="actionNext"
+	            android:nextFocusDown="@+id/etHashTag" />
+ 
+    	</co.uk.socialticker.ticker.FloatLabelLayout>
+    	
+        <co.uk.socialticker.ticker.FloatLabelLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Hashtag" />
+            android:layout_marginTop="16dp"
+            app:floatLabelTextAppearance="@style/TextAppearance.FloatLabel">
+ 
+	        <EditText
+	            android:id="@+id/etHashTag"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:hint="Enter Hashtag"
+	            android:singleLine="true"
+	            android:inputType="textNoSuggestions"
+	            android:imeOptions="actionDone" />
+ 
+    	</co.uk.socialticker.ticker.FloatLabelLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnSearchTest"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:onClick="doSearchtest"
-        android:text="Test Search (To Toast)"
-        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btnSave"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -166,7 +190,7 @@
             android:text="Save Settings" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnUpdate"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

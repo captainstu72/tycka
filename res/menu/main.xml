@@ -34,7 +34,18 @@
         android:title="@string/twitter"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_twitter"/> -->
+        
+    <item
+        android:id="@+id/menu_twitter_update"
+        android:title="Update Status"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_action_twitter"/>
     
+    <item
+        android:id="@+id/menu_twitter_logout"
+        android:title="Logout of Twitter"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_action_twitter"/>
     
 
 </menu>
