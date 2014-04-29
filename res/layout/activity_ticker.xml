@@ -176,6 +176,20 @@
 
     </LinearLayout>
 
+<<<<<<< HEAD
+=======
+    <Button
+        android:id="@+id/btnSearchTest"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:onClick="doSearch"
+        android:text="Test Search (JSA To Toast)"
+        android:textSize="14sp" />
+
+>>>>>>> 915c70d2e9d0fd52d01226e5716598620c682ffd
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
