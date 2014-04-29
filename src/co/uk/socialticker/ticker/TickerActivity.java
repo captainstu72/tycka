@@ -20,15 +20,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.ActivityInfo;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.speech.RecognizerIntent;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -36,7 +34,6 @@ import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.support.v7.media.MediaRouter.RouteInfo;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,8 +41,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,14 +56,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import co.uk.socialticker.ticker.R;
-import co.uk.socialticker.ticker.TwitterActivity.updateTwitterStatus;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -134,6 +127,9 @@ public class TickerActivity extends ActionBarActivity {
     static final String URL_TWITTER_AUTH = "auth_url";
     static final String URL_TWITTER_OAUTH_VERIFIER = "oauth_verifier";
     static final String URL_TWITTER_OAUTH_TOKEN = "oauth_token";
+    
+    // how may to return
+    static final int TWEET_COUNT = 1;
  
     // Login button
     Button btnLoginTwitter;
@@ -145,6 +141,12 @@ public class TickerActivity extends ActionBarActivity {
     EditText txtUpdate;
     // lbl update
     TextView lblUpdate;
+    
+    //Twitter card
+    LinearLayout llTwitter;
+    
+    //Cast card
+    LinearLayout llCast;
  
     // Progress dialog
     ProgressDialog pDialog;
@@ -166,6 +168,9 @@ public class TickerActivity extends ActionBarActivity {
 	static EditText etTitle;
 	static EditText etImgUrl;
 	static EditText etHashTag;
+	
+	//runnable for constant updates
+	Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,13 +187,21 @@ public class TickerActivity extends ActionBarActivity {
         actionBar.setTitle(getString(R.string.app_name));
         actionBar.setSubtitle(getString(R.string.app_desc));
 
-        /*btnUpdate = (Button) findViewById(R.id.btnUpdate);
+        btnUpdate = (Button) findViewById(R.id.btnUpdate);
         btnUpdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {                
-                sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag);
+                try {
+					sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
+				} catch (TwitterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                
+                
+                mHandler.post(sendToCastRunnable);
             }
-        });*/
+        });
 
         // Configure Cast device discovery
         mMediaRouter = MediaRouter.getInstance(getApplicationContext());
@@ -220,12 +233,8 @@ public class TickerActivity extends ActionBarActivity {
 	}
     
     public void updatePrefs(View id) {
-		//update the preferences
-		
-		//Set the appID
-		String appID = "";
-		
-		pe.putString(KEY_APP_ID, appID).commit();	
+		//update the preference
+		pe.putString(KEY_APP_ID, mAppID).commit();	
 		pe.putString(KEY_CAST_TITLE,etTitle.getText().toString()).commit();
 		pe.putString(KEY_CAST_IMGURL,etImgUrl.getText().toString()).commit();
 		pe.putString(KEY_CAST_HASHTAG,etHashTag.getText().toString()).commit();
@@ -261,6 +270,9 @@ public class TickerActivity extends ActionBarActivity {
         btnLogoutTwitter = (Button) findViewById(R.id.btnLogoutTwitter);
         txtUpdate = (EditText) findViewById(R.id.txtUpdateStatus);
         lblUpdate = (TextView) findViewById(R.id.lblUpdate);
+        
+        llTwitter = (LinearLayout) findViewById(R.id.llTwitter);
+        llCast = (LinearLayout) findViewById(R.id.llCast);
  
         // Shared Preferences
         mSharedPreferences = getApplicationContext().getSharedPreferences(
@@ -373,7 +385,8 @@ public class TickerActivity extends ActionBarActivity {
         // Start media router discovery
         mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback,
                 MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
-        mAppID = p.getString(KEY_APP_ID, getString(R.string.app_id));
+//        mAppID = p.getString(KEY_APP_ID, getString(R.string.app_id));
+        mAppID = getString(R.string.app_id);
         mCastTitle = p.getString(KEY_CAST_TITLE,getString(R.string.app_name));
         mImgUrl = p.getString(KEY_CAST_IMGURL,"");
         mHashTag = p.getString(KEY_CAST_HASHTAG,"");
@@ -389,8 +402,16 @@ public class TickerActivity extends ActionBarActivity {
             txtUpdate.setVisibility(View.VISIBLE);
             btnUpdateStatus.setVisibility(View.VISIBLE);
             btnLogoutTwitter.setVisibility(View.VISIBLE);
-
+            
+            //even better lets just hide the top section if we are logged in, and hide the bottom part if we aren't
+            llTwitter.setVisibility(View.GONE);
+            llCast.setVisibility(View.VISIBLE);
+        } else {
+            llTwitter.setVisibility(View.VISIBLE);
+            llCast.setVisibility(View.GONE);
         }
+        
+        
     }
 
     @Override
@@ -652,25 +673,31 @@ public class TickerActivity extends ActionBarActivity {
             Toast.makeText(TickerActivity.this, message, Toast.LENGTH_SHORT)
                     .show();
         }
+        Log.d(TAG,message);
     }
     
-    private void sendUpdate(String title, String message, String imgurl, String hashTag) {
-    	JSONObject json = writeJSON(title,message, imgurl, hashTag);
-    	sendMessage(json.toString());    	
+    private void sendUpdate(String title, String message, String imgurl, String hashTag, JSONArray jsA) {
+    	JSONObject json = writeJSON(title,message, imgurl, hashTag, jsA);
+    	sendMessage(json.toString());	
     }
     
-    private JSONObject writeJSON(String title, String message, String imgurl, String hashTag) {
-    	JSONObject object = new JSONObject();
+    private JSONObject writeJSON(String title, String message, String imgurl, String hashTag, JSONArray jsA) {
+//    	JSONArray output = new JSONArray();
+    	JSONObject meta = new JSONObject();
     	try {
-    		object.put("title", title);
-    		object.put("message", message);
-    		object.put("imgurl", imgurl);
-    		object.put("hashtag",hashTag);
+    		meta.put("title", title);
+    		meta.put("message", message);
+    		meta.put("imgurl", imgurl);
+    		meta.put("hashtag",hashTag);
+    		meta.put("jsA", jsA);
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
-    	System.out.println(object);
-		return object;
+    	System.out.println(meta);
+    	
+//    	output.put(meta);
+//    	output.put(jsA);
+		return meta;
     }
     
     //open custom preferences activity
@@ -690,9 +717,17 @@ public class TickerActivity extends ActionBarActivity {
 	      case R.id.twitter:
 	    	  startActivity(new Intent(this,TwitterActivity.class));
 	    	  break;*/
-	
-	      default:
-	    	  break;
+    		case R.id.menu_twitter_update:
+			   DialogFragment newFragment = new TwitterUpdateDialogFragment();
+			   Bundle args = new Bundle();
+			   newFragment.setArguments(args);
+			   newFragment.show(getSupportFragmentManager(), "sendTweet");
+			   break;
+    		case R.id.menu_twitter_logout:
+    			logoutFromTwitter();
+    			break;	
+    		default:
+    			break;
 	      }
 	
     	return true;
@@ -857,10 +892,11 @@ public class TickerActivity extends ActionBarActivity {
      * Test code to try and retrieve some data from twitter in a search!
      * @throws TwitterException 
      * */
-    public void doSearchtest(View v) throws TwitterException {
+    public JSONArray doSearch(View v) throws TwitterException {
     	//Toast.makeText(this, "So this button has been hit then", Toast.LENGTH_SHORT).show();
     	// The factory instance is re-useable and thread safe.
     	//get the hashtag - check to make sure if returned value is set to something with a length
+    	JSONArray jsA = new JSONArray();
     	String qHash = p.getString(KEY_CAST_HASHTAG, "#MOTD2014");
     	Log.d(TAG,"Hash to search: " + qHash);
     	if (qHash.length() == 0) {
@@ -882,13 +918,14 @@ public class TickerActivity extends ActionBarActivity {
 	            Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 	            //Query query = new Query("#MOTD2014");
 	            Query query = new Query(qHash);
-	            query.count(5);
+	            query.count(TWEET_COUNT);
 	            QueryResult result = twitter.search(query);
 	            for (twitter4j.Status status : result.getTweets()) {
 	            	String mOut = "@" + status.getUser().getScreenName() + ":" + status.getText();
+	            	JSONObject jso = tweetJSON(status.getUser().getScreenName(), status.getText());
+	            	jsA.put(jso);
 	                System.out.println(mOut);
-	
-	            	Toast.makeText(this, mOut, Toast.LENGTH_LONG).show();
+//	            	Toast.makeText(this, mOut, Toast.LENGTH_LONG).show();
 	            }
 	
 	        } catch (TwitterException e) {
@@ -897,6 +934,50 @@ public class TickerActivity extends ActionBarActivity {
 	            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 	        }
     	}
-    }
 
+        //Toast.makeText(this, jsA.toString(), Toast.LENGTH_LONG).show();
+		return jsA;
+    }
+    
+    private JSONObject tweetJSON(String user, String text) {
+    	JSONObject object = new JSONObject();
+    	try {
+    		object.put("user", user);
+    		object.put("text", text);
+    	} catch (JSONException e) {
+    		e.printStackTrace();
+    	}
+    	System.out.println(object);
+		return object;
+    }
+    
+    //disable twitter menu actions if we are not signed in to twitter
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	Boolean toggle = true;
+    	
+		MenuItem update = menu.findItem(R.id.menu_twitter_update);
+		MenuItem logout = menu.findItem(R.id.menu_twitter_logout);
+		
+    	if (!isTwitterLoggedInAlready()) {
+    		toggle = false;
+    	}
+    	update.setEnabled(toggle);
+    	logout.setEnabled(toggle);
+    	
+    	super.onPrepareOptionsMenu(menu);
+    	return true;
+    }
+    
+    Runnable sendToCastRunnable = new Runnable(){  
+    	public void run() {            
+            try {
+				sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
+			} catch (TwitterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		mHandler.postDelayed(this, 10000);  
+    	}  
+	 };  
 }

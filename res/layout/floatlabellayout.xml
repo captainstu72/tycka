@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+ 
+    <co.uk.socialticker.ticker.FloatLabelLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:floatLabelTextAppearance="@style/TextAppearance.FloatLabel">
+ 
+        <EditText
+            android:id="@+id/edit_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/app_desc"
+            android:singleLine="true"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/edit_password" />
+ 
+    </co.uk.socialticker.ticker.FloatLabelLayout>
+ 
+    <co.uk.socialticker.ticker.FloatLabelLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:floatLabelTextAppearance="@style/TextAppearance.FloatLabel">
+ 
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/app_desc"
+            android:singleLine="true"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionDone" />
+ 
+    </co.uk.socialticker.ticker.FloatLabelLayout>
+ 
+</LinearLayout>
