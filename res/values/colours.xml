@@ -18,45 +18,26 @@
 */
 -->
 <resources>
-    <color name="pink_light">#ffff5db1</color>
-    <color name="pink_dark">#fff72f97</color>
     
-    <color name="califblue">#ff3b58a6</color>
-    <color name="califbluelight">#ff6279b8</color>
-    <color name="myblue">#ff151565</color>
-    <color name="xblue">#ff3000b4</color>
+    <color name="st_blue">#ff00a0cc</color>
+    <color name="st_blue_light">#ff3fb7d8</color>
+    <color name="st_blue_dark">#ff007899</color>
+    <color name="stacked_color">#ffd6d6d6</color>
+    <color name="popup_color">#fff2f2f2</color>
+    <color name="action_modebg_color">#ffffffff</color>
     
-    <color name="flatgreen">#ff57d78d</color>
-    <color name="flatgreenlight">#ff78dfa3</color>
-        
-    <color name="flatdarkgreen">#ff409e67</color>
-    <color name="flatblue">#ff42a3e7</color>
-    <color name="flatyellow">#fffcd12c</color>
-    <color name="flatred">#fffb2a52</color>
-    <color name="limelight">#ffd2ff52</color>
-    <color name="limedark">#ff91e842</color>
-    
-    <color name="hdc">#ff69b40f</color>
-    
-    <color name="barDarkColor">#CECECE</color>
-	<color name="barMeduimColor">#DFDEE0</color>
-	<color name="barLightColor">#F2F2F2</color>
-	<color name="textColor">#FFF</color>
-	<color name="textFieldColor">#000</color>
-	<color name="textShadow">#FFF</color>
-	<color name="listViewBg">#DADFEE</color>
-	
 	<color name="cardsLightText">#ff6b6b6b</color>
 	<color name="cardsDarkText">#ffe5e5e5</color>
 	<color name="cardsLightBackground">#ffe5e5e5</color>
 	<color name="cardsDarkBackground">#ff2b2b2b</color>
 	
-	<color name="gradient_top">#ff0078c6</color>
-	<color name="gradient_bottom">#ff07295a</color>
-	
 	<color name="text_plain_button">#8c000000</color>
     <color name="lightest_gray_solid">#fff0f0f0</color>
     <color name="light_gray_solid">#ffe5e5e5</color>
+    
+    <color name="white">#ffffffff</color>
+    
+    <color name="actionbar_text">#ffffffff</color>
     
 </resources>
 

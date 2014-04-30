@@ -129,7 +129,8 @@ public class TickerActivity extends ActionBarActivity {
     static final String URL_TWITTER_OAUTH_TOKEN = "oauth_token";
     
     // how may to return
-    static final int TWEET_COUNT = 1;
+    static final int TWEET_COUNT = 5;
+    static final int TWEET_INTERVAL = 10000; // (ms)
  
     // Login button
     Button btnLoginTwitter;
@@ -182,25 +183,25 @@ public class TickerActivity extends ActionBarActivity {
         mAppID = getString(R.string.app_id);
 
         ActionBar actionBar = getSupportActionBar();
-        //actionBar.setBackgroundDrawable(new ColorDrawable(
-        //        android.R.color.transparent));
         actionBar.setTitle(getString(R.string.app_name));
-        actionBar.setSubtitle(getString(R.string.app_desc));
 
         btnUpdate = (Button) findViewById(R.id.btnUpdate);
         btnUpdate.setOnClickListener(new OnClickListener() {
+        	
             @Override
             public void onClick(View v) {                
-                try {
+                
+            	try {
 					sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
 				} catch (TwitterException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
                 
-                
                 mHandler.post(sendToCastRunnable);
-            }
+                
+        	}
+            
         });
 
         // Configure Cast device discovery
@@ -665,7 +666,7 @@ public class TickerActivity extends ActionBarActivity {
                 //update our text view:
                 SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
                 String currentDateandTime = sdf.format(new Date());
-                ((TextView) findViewById(R.id.txtLastUpdate)).setText("Last updated: " + currentDateandTime);
+                //((TextView) findViewById(R.id.txtLastUpdate)).setText("Last updated: " + currentDateandTime);
             } catch (Exception e) {
                 Log.e(TAG, "Exception while sending message", e);
             }
@@ -977,7 +978,22 @@ public class TickerActivity extends ActionBarActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		mHandler.postDelayed(this, 10000);  
+    		mHandler.postDelayed(this, TWEET_INTERVAL);  
     	}  
-	 };  
+	 };
+	 
+	 public void doDialogUpdatePositiveClick(String status) {
+		// Do stuff here.
+		Log.i(TAG, "Sending status to twitter: " + status);
+		//send tweet!
+		 
+		// Check for blank text
+		if (status.trim().length() > 0) {
+		    // update status
+			new updateTwitterStatus().execute(status);
+		} else {
+	    // EditText is empty
+		Toast.makeText(this,"Please enter status message", Toast.LENGTH_SHORT).show();
+		}
+	 }
 }

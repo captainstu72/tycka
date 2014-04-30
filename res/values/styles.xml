@@ -14,18 +14,41 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+    </style>
+    
+    <style name="OverFlow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+    	<item name="android:src">@drawable/ic_action_overflow</item>
+	</style>
+	
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+           parent="@style/Widget.AppCompat.ActionBar">
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText"
+           parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/actionbar_text</item>
+    </style>
+
+    <!-- ActionBar tabs text styles -->
+    <style name="MyActionBarTabText"
+           parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@color/actionbar_text</item>
     </style>
 
     <!-- Application theme. -->
@@ -34,7 +57,7 @@
     </style>
     
     <style name="Cards" parent="@style/AppTheme">
-        <item name="android:textColor">#ff6b6b6b</item>
+        <item name="android:textColor">@color/cardsLightText</item>
     </style>
     
     <style name="Cards.Container">
@@ -63,8 +86,12 @@
     
     <style name="TextAppearance.FloatLabel" parent="android:TextAppearance.Small">
         <item name="android:textColor">@color/float_label</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="EditText" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/textfield_searchview_holo_light</item>
     </style>
 
 </resources>
