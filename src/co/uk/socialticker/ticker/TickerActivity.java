@@ -130,7 +130,7 @@ public class TickerActivity extends ActionBarActivity {
     
     // how may to return
     static final int TWEET_COUNT = 5;
-    static final int TWEET_INTERVAL = 10000; // (ms)
+    static final int TWEET_INTERVAL = 15000; // (ms)
  
     // Login button
     Button btnLoginTwitter;
@@ -898,7 +898,7 @@ public class TickerActivity extends ActionBarActivity {
     	// The factory instance is re-useable and thread safe.
     	//get the hashtag - check to make sure if returned value is set to something with a length
     	JSONArray jsA = new JSONArray();
-    	String qHash = p.getString(KEY_CAST_HASHTAG, "#MOTD2014");
+    	String qHash = p.getString(KEY_CAST_HASHTAG, "");
     	Log.d(TAG,"Hash to search: " + qHash);
     	if (qHash.length() == 0) {
     		Toast.makeText(this
@@ -922,8 +922,22 @@ public class TickerActivity extends ActionBarActivity {
 	            query.count(TWEET_COUNT);
 	            QueryResult result = twitter.search(query);
 	            for (twitter4j.Status status : result.getTweets()) {
-	            	String mOut = "@" + status.getUser().getScreenName() + ":" + status.getText();
-	            	JSONObject jso = tweetJSON(status.getUser().getScreenName(), status.getText());
+	            	String mOut = "@" + status.getUser().getScreenName()
+	            			+ ":" + status.getText()
+	            			+ "@" + status.getCreatedAt().toString();
+	            	
+	            	JSONObject jso = tweetJSON(
+	            			status.getUser().getScreenName()
+	            			, status.getUser().getName()
+//	            			, status.getUser().getOriginalProfileImageURL() //Whatever the size was it was uploaded in
+//	            			, status.getUser().getProfileImageURL() // 48x48
+	            			, status.getUser().getBiggerProfileImageURL() // 73x73
+	            			, status.getText()
+	            			, status.getCreatedAt().toString()
+	            			, status.getFavoriteCount()
+	            			, status.getRetweetCount()
+	            			);
+	            	
 	            	jsA.put(jso);
 	                System.out.println(mOut);
 //	            	Toast.makeText(this, mOut, Toast.LENGTH_LONG).show();
@@ -940,11 +954,17 @@ public class TickerActivity extends ActionBarActivity {
 		return jsA;
     }
     
-    private JSONObject tweetJSON(String user, String text) {
+    private JSONObject tweetJSON(String user, String realName, String profileImg
+    		, String text, String date, int favourites, int retweets) {
     	JSONObject object = new JSONObject();
     	try {
     		object.put("user", user);
+    		object.put("realName",realName);
+    		object.put("profileImg",profileImg);
     		object.put("text", text);
+    		object.put("date", date);
+    		object.put("favourites", favourites);
+    		object.put("retweets", retweets);
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
