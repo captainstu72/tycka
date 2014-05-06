@@ -33,11 +33,11 @@ The bulk of the main settings are within here:
 
 app_name - What ever you want your app to display as, right now this is pointless as I am loading a custom image in the action bar. You'll need to dsiable this within the TickerActivity.java file. More on that later.
 
-app_desc - We'd love you to keep this as Powered by tycka.
-app_id - Your AppID from the Cast Developers setup.
-namespace - The custom namespace you are using to communicate with your receiver.
-twitter_api_key - Your consumer key from the twitter setup.
-twitter_api_secret - Your consumer secret from the twitter setup.
+* app_desc - We'd love you to keep this as Powered by tycka.
+* app_id - Your AppID from the Cast Developers setup.
+* namespace - The custom namespace you are using to communicate with your receiver.
+* twitter_api_key - Your consumer key from the twitter setup.
+* ***twitter_api_secret*** - Your consumer secret from the twitter setup.
 
 
 The main details here to change are the twitter_api_key and twitter_api_secret. These are defined as strings within the resource files. These are then read in and put into a constant onResume. [getPrefs()]
@@ -45,8 +45,8 @@ The main details here to change are the twitter_api_key and twitter_api_secret. 
 ##TickerActivity.java
 
 There are 2 constants here to change. These will affect the frequency that data is pulled back from twitter, and how many tweets. I would not change the TWEET_INTERVAL to less than 15000. You are allowed 180 calls per 15 mins. This is every 15 seconds.
-    static final int TWEET_COUNT = 5;
-    static final int TWEET_INTERVAL = 15000; // (ms)
+* static final int TWEET_COUNT = 5;
+* static final int TWEET_INTERVAL = 15000; // (ms)
 
 To disable the custom image in the action bar, you will want to delete the lines that say:
         actionBar.setCustomView(R.layout.actionbar_custom_view_home);
