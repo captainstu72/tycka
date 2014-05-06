@@ -39,9 +39,6 @@ app_name - What ever you want your app to display as, right now this is pointles
 * **twitter_api_key** - Your consumer key from the twitter setup.
 * **twitter_api_secret** - Your consumer secret from the twitter setup.
 
-
-The main details here to change are the twitter_api_key and twitter_api_secret. These are defined as strings within the resource files. These are then read in and put into a constant onResume. [getPrefs()]
-
 ##TickerActivity.java
 
 There are 2 constants here to change. These will affect the frequency that data is pulled back from twitter, and how many tweets. I would not change the TWEET_INTERVAL to less than 15000. You are allowed 180 calls per 15 mins. This is every 15 seconds.
@@ -52,6 +49,7 @@ To disable the custom image in the action bar, you will want to delete the lines
 * actionBar.setCustomView(R.layout.actionbar_custom_view_home);
 * actionBar.setDisplayShowTitleEnabled(false);
 * actionBar.setDisplayShowCustomEnabled(true);
+* 
 Doing so will now show you the title.
 
         
