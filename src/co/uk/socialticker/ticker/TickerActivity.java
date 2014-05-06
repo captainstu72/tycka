@@ -57,9 +57,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -109,11 +106,13 @@ public class TickerActivity extends ActionBarActivity {
     private boolean mApplicationStarted;
     private boolean mWaitingForReconnect;
     
-    private static Button btnUpdate;
-    
     /* twitter side stuff*/
-    static String TWITTER_CONSUMER_KEY = "UV9HB4ehoApafmTiqcNzg";
-    static String TWITTER_CONSUMER_SECRET = "IMuHFQP3cCApXnTGEpwK5DpyjZZUQUSETnYp5lvB7o";
+    static String TWITTER_CONSUMER_KEY = "";
+    static String TWITTER_CONSUMER_SECRET = "";    
+    // how may to return
+    static final int TWEET_COUNT = 5;
+    // 180 calls per 15 mins.
+    static final int TWEET_INTERVAL = 15000; // (ms)
  
     // Preference Constants
     static String PREFERENCE_NAME = "twitter_oauth";
@@ -128,9 +127,10 @@ public class TickerActivity extends ActionBarActivity {
     static final String URL_TWITTER_OAUTH_VERIFIER = "oauth_verifier";
     static final String URL_TWITTER_OAUTH_TOKEN = "oauth_token";
     
-    // how may to return
-    static final int TWEET_COUNT = 5;
-    static final int TWEET_INTERVAL = 15000; // (ms)
+    // update settings and send button
+    private static Button btnUpdate;
+    //stop runnable button
+    private static Button btnKillUpdate;
  
     // Login button
     Button btnLoginTwitter;
@@ -172,6 +172,7 @@ public class TickerActivity extends ActionBarActivity {
 	
 	//runnable for constant updates
 	Handler mHandler = new Handler();
+	boolean mHandlerCancelled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,40 +180,56 @@ public class TickerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_ticker);
         
         p = PreferenceManager.getDefaultSharedPreferences(this);
-        pe = p.edit();
-        mAppID = getString(R.string.app_id);
+        pe = p.edit();        
+        
+        onCreateTwitter();
+        onCreatePrefs();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getString(R.string.app_name));
+        actionBar.setSubtitle(getString(R.string.app_desc));
+        actionBar.setCustomView(R.layout.actionbar_custom_view_home);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
 
         btnUpdate = (Button) findViewById(R.id.btnUpdate);
         btnUpdate.setOnClickListener(new OnClickListener() {
         	
             @Override
-            public void onClick(View v) {                
+            public void onClick(View v) {    
+            	updatePrefs(v);
+            	
+	            	try {
+	            		mHandlerCancelled = false;
+						sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
+
+		                
+		                mHandler.post(sendToCastRunnable);
+					} catch (TwitterException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+                } 
                 
-            	try {
-					sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
-				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                
-                mHandler.post(sendToCastRunnable);
-                
-        	}
+        	
             
         });
 
+        btnKillUpdate = (Button) findViewById(R.id.btnKillUpdate);
+        btnKillUpdate.setOnClickListener(new OnClickListener() {        	
+            @Override
+            public void onClick(View v) {    
+            	stopRunnable();
+            }
+        });
         // Configure Cast device discovery
         mMediaRouter = MediaRouter.getInstance(getApplicationContext());
         mMediaRouteSelector = new MediaRouteSelector.Builder()
                 .addControlCategory(
                         CastMediaControlIntent.categoryForCast(mAppID)).build();
         mMediaRouterCallback = new MyMediaRouterCallback();
-        
-        onCreateTwitter();
-        onCreatePrefs();
+
     }
     
     private void onCreatePrefs() {        
@@ -226,10 +243,14 @@ public class TickerActivity extends ActionBarActivity {
     }
     
 	private void getPrefs() {
+        mAppID = getString(R.string.app_id);
 		etTitle.setText(p.getString(KEY_CAST_TITLE, getString(R.string.app_name)));
-		//not sure how the hell I am going to do this for the radiogroup!
 		etImgUrl.setText(p.getString(KEY_CAST_IMGURL,null));
 		etHashTag.setText(p.getString(KEY_CAST_HASHTAG,null));
+		
+		// Get twitter settings from the String resources or it will not work, at all.
+		TWITTER_CONSUMER_KEY = getString(R.string.twitter_api_key);
+		TWITTER_CONSUMER_SECRET = getString(R.string.twitter_api_secret);
 		
 	}
     
@@ -238,8 +259,7 @@ public class TickerActivity extends ActionBarActivity {
 		pe.putString(KEY_APP_ID, mAppID).commit();	
 		pe.putString(KEY_CAST_TITLE,etTitle.getText().toString()).commit();
 		pe.putString(KEY_CAST_IMGURL,etImgUrl.getText().toString()).commit();
-		pe.putString(KEY_CAST_HASHTAG,etHashTag.getText().toString()).commit();
-		
+		pe.putString(KEY_CAST_HASHTAG,etHashTag.getText().toString()).commit();		
 	}
     
     private void onCreateTwitter() {
@@ -584,6 +604,19 @@ public class TickerActivity extends ActionBarActivity {
                                                 // set the initial instructions
                                                 // on the receiver
                                                 sendMessage(getString(R.string.instructions));
+                                                //and now send our actual data and start the runnable
+                                                mHandlerCancelled = false;
+                                                try {
+													sendUpdate(mCastTitle
+															,getString(R.string.instructions)
+															,mImgUrl
+															, mHashTag
+															, doSearch((View) btnUpdate));
+												} catch (TwitterException e1) {
+													// TODO Auto-generated catch block
+													Log.e(TAG,"ConnectionCallbacks: Update not sent");
+													e1.printStackTrace();
+												}
                                             } else {
                                                 Log.e(TAG,
                                                         "application could not launch");
@@ -642,6 +675,8 @@ public class TickerActivity extends ActionBarActivity {
         }
         mSelectedDevice = null;
         mWaitingForReconnect = false;
+        
+        stopRunnable();
     }
 
     /**
@@ -650,7 +685,7 @@ public class TickerActivity extends ActionBarActivity {
      * @param message
      */
     private void sendMessage(String message) {
-        if (mApiClient != null && mHelloWorldChannel != null) {
+        if (mApiClient != null) {
             try {
                 Cast.CastApi.sendMessage(mApiClient,
                         mHelloWorldChannel.getNamespace(), message)
@@ -662,26 +697,26 @@ public class TickerActivity extends ActionBarActivity {
                                 }
                             }
                         });
-                
-                //update our text view:
-                SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
-                String currentDateandTime = sdf.format(new Date());
-                //((TextView) findViewById(R.id.txtLastUpdate)).setText("Last updated: " + currentDateandTime);
             } catch (Exception e) {
                 Log.e(TAG, "Exception while sending message", e);
             }
-        } else {
-            Toast.makeText(TickerActivity.this, message, Toast.LENGTH_SHORT)
-                    .show();
-        }
         Log.d(TAG,message);
+        } else {
+        	Toast.makeText(this, "You do not seem to be connected to a cast device...", Toast.LENGTH_LONG).show();
+        }
     }
     
+    /**
+     *  Wrapper to send a new message to the chromecast with a JSON object
+     */
     private void sendUpdate(String title, String message, String imgurl, String hashTag, JSONArray jsA) {
-    	JSONObject json = writeJSON(title,message, imgurl, hashTag, jsA);
-    	sendMessage(json.toString());	
+	    	JSONObject json = writeJSON(title,message, imgurl, hashTag, jsA);
+	    	sendMessage(json.toString());
     }
     
+    /*
+     * Build JSON object to send to cast from sendUpdate()
+     */
     private JSONObject writeJSON(String title, String message, String imgurl, String hashTag, JSONArray jsA) {
 //    	JSONArray output = new JSONArray();
     	JSONObject meta = new JSONObject();
@@ -694,7 +729,7 @@ public class TickerActivity extends ActionBarActivity {
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
-    	System.out.println(meta);
+    	//System.out.println(meta);
     	
 //    	output.put(meta);
 //    	output.put(jsA);
@@ -703,7 +738,6 @@ public class TickerActivity extends ActionBarActivity {
     
     //open custom preferences activity
     public void openSettings() {
-    	//Toast.makeText(this, "Open Settings", Toast.LENGTH_SHORT).show();
     	startActivity(new Intent(this,CustomPreferenceActivity.class));
     }
     
@@ -730,7 +764,6 @@ public class TickerActivity extends ActionBarActivity {
     		default:
     			break;
 	      }
-	
     	return true;
 	}
 
@@ -894,7 +927,6 @@ public class TickerActivity extends ActionBarActivity {
      * @throws TwitterException 
      * */
     public JSONArray doSearch(View v) throws TwitterException {
-    	//Toast.makeText(this, "So this button has been hit then", Toast.LENGTH_SHORT).show();
     	// The factory instance is re-useable and thread safe.
     	//get the hashtag - check to make sure if returned value is set to something with a length
     	JSONArray jsA = new JSONArray();
@@ -939,8 +971,7 @@ public class TickerActivity extends ActionBarActivity {
 	            			);
 	            	
 	            	jsA.put(jso);
-	                System.out.println(mOut);
-//	            	Toast.makeText(this, mOut, Toast.LENGTH_LONG).show();
+	                //System.out.println(mOut);
 	            }
 	
 	        } catch (TwitterException e) {
@@ -949,8 +980,7 @@ public class TickerActivity extends ActionBarActivity {
 	            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 	        }
     	}
-
-        //Toast.makeText(this, jsA.toString(), Toast.LENGTH_LONG).show();
+    	;
 		return jsA;
     }
     
@@ -968,7 +998,7 @@ public class TickerActivity extends ActionBarActivity {
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
-    	System.out.println(object);
+    	//System.out.println(object);
 		return object;
     }
     
@@ -990,19 +1020,30 @@ public class TickerActivity extends ActionBarActivity {
     	return true;
     }
     
+    /* Runnable to work as a constant task to update the cast with sendUpdate based on
+     * the frequency of TWEET_INTERVAL
+     */
     Runnable sendToCastRunnable = new Runnable(){  
-    	public void run() {            
-            try {
-				sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		mHandler.postDelayed(this, TWEET_INTERVAL);  
+    	public void run() { 
+    		if (!mHandlerCancelled && !(mApiClient == null)) {
+	            try {
+					sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
+				} catch (TwitterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		mHandler.postDelayed(this, TWEET_INTERVAL);
+    		} else {
+    	        mHandlerCancelled = true; //incase we have teardown
+    			mHandler.removeCallbacksAndMessages(sendToCastRunnable);
+    		}
     	}  
 	 };
 	 
-	 public void doDialogUpdatePositiveClick(String status) {
+	 /*
+	  * Handler for the Update Tweet dialog. Begins the code to send the tweet
+	  */
+	public void doDialogUpdatePositiveClick(String status) {
 		// Do stuff here.
 		Log.i(TAG, "Sending status to twitter: " + status);
 		//send tweet!
@@ -1015,5 +1056,13 @@ public class TickerActivity extends ActionBarActivity {
 	    // EditText is empty
 		Toast.makeText(this,"Please enter status message", Toast.LENGTH_SHORT).show();
 		}
+	 }
+	
+	/*
+	 * attempt to stop the runnable by setting a constant to true. This is read on sendToCastRunnable
+	 * which checks to see if it is true or not.
+	 */
+	public void stopRunnable() {
+	        mHandlerCancelled = true;
 	 }
 }

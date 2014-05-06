@@ -104,7 +104,7 @@
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/mr_ic_media_route_holo_light" />
+                android:src="@drawable/ic_cast_icon" />
 
             <TextView
                 android:id="@+id/TextView01"
@@ -187,7 +187,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="updatePrefs"
-            android:text="Save Settings" />
+            android:text="Save Settings"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnKillUpdate"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Stop Updates" />
 
         <Button
             android:id="@+id/btnUpdate"
