@@ -45,37 +45,17 @@ public class CustomPreferenceActivity extends ActionBarActivity {
         actionBar.setSubtitle(getString(R.string.app_name));
         actionBar.setDisplayHomeAsUpEnabled(true);
         
-        //set objects
-        etTitle = (EditText) findViewById(R.id.etTitle);
-		rg = (RadioGroup) findViewById(R.id.rgLayout);
-		etImgUrl = (EditText) findViewById(R.id.etImgUrl);
-		etHashTag = (EditText) findViewById(R.id.etHashTag);
-        
         //load the current prefs
         getPrefs();
 
 	}
 	
 	private void getPrefs() {
-		etTitle.setText(p.getString(KEY_CAST_TITLE, getString(R.string.app_name)));
-		//not sure how the hell I am going to do this for the radiogroup!
-		rg.check(p.getInt(KEY_APP_RGID,R.id.rdoApp1));
-		etImgUrl.setText(p.getString(KEY_CAST_IMGURL,null));
-		etHashTag.setText(p.getString(KEY_CAST_HASHTAG,null));
 		
 	}
 	
 	public void updatePrefs(View id) {
 		//update the preferences
-		
-		//Set the appID
-		String appID = "";
-		int selectedID = rg.getCheckedRadioButtonId();
-		RadioButton selectedView = (RadioButton) findViewById( selectedID);
-		appID = selectedView.getText().toString();
-		
-		pe.putString(KEY_APP_ID, appID).commit();	
-		pe.putInt(KEY_APP_RGID,selectedID).commit();	
 		pe.putString(KEY_CAST_TITLE,etTitle.getText().toString()).commit();
 		pe.putString(KEY_CAST_IMGURL,etImgUrl.getText().toString()).commit();
 		pe.putString(KEY_CAST_HASHTAG,etHashTag.getText().toString()).commit();

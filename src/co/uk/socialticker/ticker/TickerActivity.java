@@ -181,9 +181,9 @@ public class TickerActivity extends ActionBarActivity {
         
         p = PreferenceManager.getDefaultSharedPreferences(this);
         pe = p.edit();        
-        
-        onCreateTwitter();
+
         onCreatePrefs();
+        onCreateTwitter();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getString(R.string.app_name));
