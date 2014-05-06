@@ -9,8 +9,8 @@ tycka is a twitter streaming app for the Google Chromecast. It is designed to ga
 
 For this code to work, you will need to have setup:
 * v7-appcompat library
-*v7-mediarouter library
-*google-play-services library.
+* v7-mediarouter library
+* google-play-services library.
 
 All of these are part of the Android SDK and can be downloaded through the SDK manager. You will find details of this here: https://developers.google.com/cast/docs/downloads
 
