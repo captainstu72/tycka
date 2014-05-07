@@ -1072,8 +1072,9 @@ public class TickerActivity extends ActionBarActivity {
 	    			Log.d(TAG,"Killing runnable");
 	    	        mHandlerCancelled = true; //incase we have teardown
 	    			mHandler.removeCallbacksAndMessages(sendToCastRunnable);
+	    			Toast.makeText(TickerActivity.this, "Updates stopped", Toast.LENGTH_LONG).show();
 	    		}
-    		}	else {
+    		} else {
     			Log.d(TAG,"Not making another runnable, you already have one");
     			rCount = rCount - 1; //make our count go back down then.
     			Log.d(TAG, "rCount == " + String.valueOf(rCount));
