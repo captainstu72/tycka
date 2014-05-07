@@ -77,6 +77,13 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class TickerActivity extends ActionBarActivity {
 
+	/*
+	 *  when releasing set this to false!!!!
+	 *  This simply displays me the json when I am not connected
+	 *  to a cast and I have set this to true. Testing only!
+	 *  */
+	boolean debugOn = false;
+	
     private static final String TAG = TickerActivity.class.getSimpleName();
     
     private static SharedPreferences p;
@@ -173,6 +180,7 @@ public class TickerActivity extends ActionBarActivity {
 	//runnable for constant updates
 	Handler mHandler = new Handler();
 	boolean mHandlerCancelled = false;
+	int rCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,23 +206,13 @@ public class TickerActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {    
             	updatePrefs(v);
-            	
-	            	try {
-	            		mHandlerCancelled = false;
-						sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
-
-		                
-		                mHandler.post(sendToCastRunnable);
-					} catch (TwitterException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-                } 
-                
-        	
-            
-        });
+            	if (mHandlerCancelled == false) { //save changes without spawning another runnable
+		            mHandlerCancelled = false;
+	    			rCount = rCount + 1;
+	    			Log.d(TAG, "rCount == " + String.valueOf(rCount));
+	        		mHandler.post(sendToCastRunnable);
+            	}
+        }});
 
         btnKillUpdate = (Button) findViewById(R.id.btnKillUpdate);
         btnKillUpdate.setOnClickListener(new OnClickListener() {        	
@@ -259,7 +257,14 @@ public class TickerActivity extends ActionBarActivity {
 		pe.putString(KEY_APP_ID, mAppID).commit();	
 		pe.putString(KEY_CAST_TITLE,etTitle.getText().toString()).commit();
 		pe.putString(KEY_CAST_IMGURL,etImgUrl.getText().toString()).commit();
-		pe.putString(KEY_CAST_HASHTAG,etHashTag.getText().toString()).commit();		
+		pe.putString(KEY_CAST_HASHTAG,etHashTag.getText().toString()).commit();
+		
+        mAppID = getString(R.string.app_id);
+        mCastTitle = p.getString(KEY_CAST_TITLE,getString(R.string.app_name));
+        mImgUrl = p.getString(KEY_CAST_IMGURL,"");
+        mHashTag = p.getString(KEY_CAST_HASHTAG,"");
+        
+        Log.d(TAG,"Preferences updated");
 	}
     
     private void onCreateTwitter() {
@@ -608,8 +613,8 @@ public class TickerActivity extends ActionBarActivity {
                                                 mHandlerCancelled = false;
                                                 try {
 													sendUpdate(mCastTitle
-															,getString(R.string.instructions)
-															,mImgUrl
+															, getString(R.string.instructions)
+															, mImgUrl
 															, mHashTag
 															, doSearch((View) btnUpdate));
 												} catch (TwitterException e1) {
@@ -685,25 +690,34 @@ public class TickerActivity extends ActionBarActivity {
      * @param message
      */
     private void sendMessage(String message) {
-        if (mApiClient != null) {
-            try {
-                Cast.CastApi.sendMessage(mApiClient,
-                        mHelloWorldChannel.getNamespace(), message)
-                        .setResultCallback(new ResultCallback<Status>() {
-                            @Override
-                            public void onResult(Status result) {
-                                if (!result.isSuccess()) {
-                                    Log.e(TAG, "Sending message failed");
-                                }
-                            }
-                        });
-            } catch (Exception e) {
-                Log.e(TAG, "Exception while sending message", e);
-            }
-        Log.d(TAG,message);
-        } else {
-        	Toast.makeText(this, "You do not seem to be connected to a cast device...", Toast.LENGTH_LONG).show();
-        }
+    	if (debugOn) {
+    		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	        Log.d(TAG,message);
+    	} else {
+	    	if (message != null) {
+		        if (mApiClient != null) {
+		            try {
+		                Cast.CastApi.sendMessage(mApiClient,
+		                        mHelloWorldChannel.getNamespace(), message)
+		                        .setResultCallback(new ResultCallback<Status>() {
+		                            @Override
+		                            public void onResult(Status result) {
+		                                if (!result.isSuccess()) {
+		                                    Log.e(TAG, "Sending message failed");
+		                                }
+		                            }
+		                        });
+		            } catch (Exception e) {
+		                Log.e(TAG, "Exception while sending message", e);
+		            }
+		        Log.d(TAG,message);
+		        } else {
+		        	Toast.makeText(this, "You do not seem to be connected to a cast device...", Toast.LENGTH_LONG).show();
+		        }
+	    	} else {
+	        	Toast.makeText(this, "A null message has been received. That's not right?...", Toast.LENGTH_LONG).show();
+	        }
+    	}
     }
     
     /**
@@ -927,61 +941,62 @@ public class TickerActivity extends ActionBarActivity {
      * @throws TwitterException 
      * */
     public JSONArray doSearch(View v) throws TwitterException {
-    	// The factory instance is re-useable and thread safe.
-    	//get the hashtag - check to make sure if returned value is set to something with a length
-    	JSONArray jsA = new JSONArray();
-    	String qHash = p.getString(KEY_CAST_HASHTAG, "");
-    	Log.d(TAG,"Hash to search: " + qHash);
-    	if (qHash.length() == 0) {
-    		Toast.makeText(this
-    				, "The hashtag looks like it is not setup. May want to fix that"
-    				, Toast.LENGTH_LONG).show();
-    	} else {
-	        try {
-	            ConfigurationBuilder builder = new ConfigurationBuilder();
-	            builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-	            builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
-	             
-	            // Access Token 
-	            String access_token = mSharedPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
-	            // Access Token Secret
-	            String access_token_secret = mSharedPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
-	             
-	            AccessToken accessToken = new AccessToken(access_token, access_token_secret);
-	            Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-	            //Query query = new Query("#MOTD2014");
-	            Query query = new Query(qHash);
-	            query.count(TWEET_COUNT);
-	            QueryResult result = twitter.search(query);
-	            for (twitter4j.Status status : result.getTweets()) {
-	            	String mOut = "@" + status.getUser().getScreenName()
-	            			+ ":" + status.getText()
-	            			+ "@" + status.getCreatedAt().toString();
-	            	
-	            	JSONObject jso = tweetJSON(
-	            			status.getUser().getScreenName()
-	            			, status.getUser().getName()
-//	            			, status.getUser().getOriginalProfileImageURL() //Whatever the size was it was uploaded in
-//	            			, status.getUser().getProfileImageURL() // 48x48
-	            			, status.getUser().getBiggerProfileImageURL() // 73x73
-	            			, status.getText()
-	            			, status.getCreatedAt().toString()
-	            			, status.getFavoriteCount()
-	            			, status.getRetweetCount()
-	            			);
-	            	
-	            	jsA.put(jso);
-	                //System.out.println(mOut);
-	            }
-	
-	        } catch (TwitterException e) {
-	            // Error in updating status
-	            Log.d("Twitter Search Error", e.getMessage());
-	            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-	        }
-    	}
-    	;
-		return jsA;
+    	
+
+        if (mApiClient != null || debugOn) {
+	    	// The factory instance is re-useable and thread safe.
+	    	//get the hashtag - check to make sure if returned value is set to something with a length
+	    	JSONArray jsA = new JSONArray();
+	    	String qHash = p.getString(KEY_CAST_HASHTAG, "");
+	    	Log.d(TAG,"Hash to search: " + qHash);
+	    	if (qHash.length() == 0) {
+	    		Toast.makeText(this
+	    				, "The hashtag looks like it is not setup. May want to fix that"
+	    				, Toast.LENGTH_LONG).show();
+	    	} else {
+		        try {
+		            ConfigurationBuilder builder = new ConfigurationBuilder();
+		            builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+		            builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+		             
+		            // Access Token 
+		            String access_token = mSharedPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
+		            // Access Token Secret
+		            String access_token_secret = mSharedPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
+		             
+		            AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+		            Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+		            //Query query = new Query("#MOTD2014");
+		            Query query = new Query(qHash);
+		            query.count(TWEET_COUNT);
+		            QueryResult result = twitter.search(query);
+		            for (twitter4j.Status status : result.getTweets()) {
+		            	JSONObject jso = tweetJSON(
+		            			status.getUser().getScreenName()
+		            			, status.getUser().getName()
+	//	            			, status.getUser().getOriginalProfileImageURL() //Whatever the size was it was uploaded in
+	//	            			, status.getUser().getProfileImageURL() // 48x48
+		            			, status.getUser().getBiggerProfileImageURL() // 73x73
+		            			, status.getText()
+		            			, status.getCreatedAt().toString()
+		            			, status.getFavoriteCount()
+		            			, status.getRetweetCount()
+		            			);		            	
+		            	jsA.put(jso);
+		            }
+		
+		        } catch (TwitterException e) {
+		            // Error in updating status
+		            Log.d("Twitter Search Error", e.getMessage());
+		            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		        }
+	    	}
+	    	;
+			return jsA;
+        } else {
+        	Toast.makeText(this, "You do not seem to be connected to a cast device...", Toast.LENGTH_LONG).show();
+    		return null;
+        }
     }
     
     private JSONObject tweetJSON(String user, String realName, String profileImg
@@ -1024,18 +1039,28 @@ public class TickerActivity extends ActionBarActivity {
      * the frequency of TWEET_INTERVAL
      */
     Runnable sendToCastRunnable = new Runnable(){  
-    	public void run() { 
-    		if (!mHandlerCancelled && !(mApiClient == null)) {
-	            try {
-					sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
-				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	    		mHandler.postDelayed(this, TWEET_INTERVAL);
-    		} else {
-    	        mHandlerCancelled = true; //incase we have teardown
-    			mHandler.removeCallbacksAndMessages(sendToCastRunnable);
+    	public void run() {
+    		if (rCount < 2) {
+	    		if 	(		(!mHandlerCancelled && !(mApiClient == null))
+	    				|| 	(!mHandlerCancelled && debugOn)
+	    			) {
+		            try {
+						sendUpdate(mCastTitle,getString(R.string.instructions),mImgUrl, mHashTag, doSearch((View) btnUpdate));
+					} catch (TwitterException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		    		mHandler.postDelayed(this, TWEET_INTERVAL);
+	    		} else {
+	    			Log.d(TAG,"Killing runnable");
+	    	        mHandlerCancelled = true; //incase we have teardown
+	    			mHandler.removeCallbacksAndMessages(sendToCastRunnable);
+	    		}
+    		}	else {
+    			Log.d(TAG,"Not making another runnable, you already have one");
+    			rCount = rCount - 1; //make our count go back down then.
+    			Log.d(TAG, "rCount == " + String.valueOf(rCount));
+    			
     		}
     	}  
 	 };
@@ -1060,9 +1085,13 @@ public class TickerActivity extends ActionBarActivity {
 	
 	/*
 	 * attempt to stop the runnable by setting a constant to true. This is read on sendToCastRunnable
-	 * which checks to see if it is true or not.
+	 * which checks to see if it is true or not. Also manage a count of runnables so it does not happen
+	 * more than once = excess api calls. that'd be bad.
 	 */
 	public void stopRunnable() {
-	        mHandlerCancelled = true;
+        Log.d(TAG,"Stopping Updates");
+        mHandlerCancelled = true;
+		rCount = rCount - 1;
+		Log.d(TAG, "rCount == " + String.valueOf(rCount));
 	 }
 }

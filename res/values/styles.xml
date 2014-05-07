@@ -89,9 +89,5 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    
-    <style name="EditText" parent="android:Widget.EditText">
-        <item name="android:background">@drawable/textfield_searchview_holo_light</item>
-    </style>
 
 </resources>
