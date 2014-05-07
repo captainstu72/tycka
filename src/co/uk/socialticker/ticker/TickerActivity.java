@@ -204,13 +204,30 @@ public class TickerActivity extends ActionBarActivity {
         btnUpdate.setOnClickListener(new OnClickListener() {
         	
             @Override
-            public void onClick(View v) {    
-            	updatePrefs(v);
-            	if (mHandlerCancelled == false) { //save changes without spawning another runnable
-		            mHandlerCancelled = false;
-	    			rCount = rCount + 1;
-	    			Log.d(TAG, "rCount == " + String.valueOf(rCount));
-	        		mHandler.post(sendToCastRunnable);
+            public void onClick(View v) {
+            	boolean doMe = false;
+            	String warn = "";
+            	//check if we are in debug mode, if not check to make sure we have a chromecast connection. If we don't, warn adn fail.
+            	if (debugOn || mApiClient != null) {
+            		doMe = true;
+            	}
+        		if (mApiClient == null && debugOn == false) {
+        			warn = "You do not appear to be connected to a cast device, you may wish to fix that ...";
+        		}
+            		
+            	if (doMe) {
+	            	updatePrefs(v);
+	            	if (mHandlerCancelled == false) { //save changes without spawning another runnable
+			            mHandlerCancelled = false;
+		    			rCount = rCount + 1;
+		    			Log.d(TAG, "rCount == " + String.valueOf(rCount));
+		        		mHandler.post(sendToCastRunnable);
+	            	}
+            	}
+            	
+            	if (!warn.isEmpty()) {
+            		Log.d(TAG,warn);
+            		Toast.makeText(TickerActivity.this, warn, Toast.LENGTH_LONG).show();
             	}
         }});
 
