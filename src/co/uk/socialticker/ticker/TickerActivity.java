@@ -44,7 +44,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import co.uk.tycka.app.R;
 import com.google.android.gms.cast.ApplicationMetadata;
 import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.Cast.ApplicationConnectionResult;
@@ -55,12 +55,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-
 import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import twitter4j.MediaEntity;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Twitter;
@@ -188,7 +187,10 @@ public class TickerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_ticker);
         
         p = PreferenceManager.getDefaultSharedPreferences(this);
-        pe = p.edit();        
+        pe = p.edit(); 
+        // Shared Preferences for twitter
+        mSharedPreferences = getApplicationContext().getSharedPreferences(
+                "MyPref", 0);      
 
         onCreatePrefs();
         onCreateTwitter();
@@ -316,10 +318,7 @@ public class TickerActivity extends ActionBarActivity {
         
         llTwitter = (LinearLayout) findViewById(R.id.llTwitter);
         llCast = (LinearLayout) findViewById(R.id.llCast);
- 
-        // Shared Preferences
-        mSharedPreferences = getApplicationContext().getSharedPreferences(
-                "MyPref", 0);
+
  
         /**
          * Twitter login button click event will call loginToTwitter() function
@@ -425,6 +424,14 @@ public class TickerActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        
+
+        
+        p = PreferenceManager.getDefaultSharedPreferences(this);
+        pe = p.edit(); 
+        // Shared Preferences for twitter
+        mSharedPreferences = getApplicationContext().getSharedPreferences(
+                "MyPref", 0);    
         // Start media router discovery
         mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback,
                 MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
@@ -988,6 +995,15 @@ public class TickerActivity extends ActionBarActivity {
 		            query.count(TWEET_COUNT);
 		            QueryResult result = twitter.search(query);
 		            for (twitter4j.Status status : result.getTweets()) {
+		            	
+		            	MediaEntity[] me = status.getMediaEntities();
+		            	String meUrl = "";
+		            	if (me.length > 0 ) {
+			            	Log.d(TAG, "me[0] : " + me[0].getMediaURL());
+			            	//meUrl = me[0].getDisplayURL(); //sjort URl = useless.
+			            	meUrl = me[0].getMediaURL();
+		            	}	            	
+		            	
 		            	JSONObject jso = tweetJSON(
 		            			status.getUser().getScreenName()
 		            			, status.getUser().getName()
@@ -998,6 +1014,7 @@ public class TickerActivity extends ActionBarActivity {
 		            			, status.getCreatedAt().toString()
 		            			, status.getFavoriteCount()
 		            			, status.getRetweetCount()
+		            			, meUrl
 		            			);		            	
 		            	jsA.put(jso);
 		            }
@@ -1017,7 +1034,7 @@ public class TickerActivity extends ActionBarActivity {
     }
     
     private JSONObject tweetJSON(String user, String realName, String profileImg
-    		, String text, String date, int favourites, int retweets) {
+    		, String text, String date, int favourites, int retweets, String meUrl) {
     	JSONObject object = new JSONObject();
     	try {
     		object.put("user", user);
@@ -1027,6 +1044,7 @@ public class TickerActivity extends ActionBarActivity {
     		object.put("date", date);
     		object.put("favourites", favourites);
     		object.put("retweets", retweets);
+    		object.put("meUrl", meUrl);
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import co.uk.tycka.app.R;
 
 public class CustomPreferenceActivity extends ActionBarActivity {
 	

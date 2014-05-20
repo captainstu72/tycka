@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import co.uk.tycka.app.R;
 
 /**
  * Layout which an {@link android.widget.EditText} to show a floating label when the hint is hidden

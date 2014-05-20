@@ -3,6 +3,7 @@ package co.uk.socialticker.ticker;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import co.uk.tycka.app.R;
  
 public class AlertDialogManager {
     /**
